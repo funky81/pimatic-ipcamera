@@ -1,19 +1,28 @@
 module.exports = (env) ->
-
-  # Require the  bluebird promise library
   Promise = env.require 'bluebird'
-
-  # Require the [cassert library](https://github.com/rhoot/cassert).
   assert = env.require 'cassert'
-
 
   class IpCameraPlugin extends env.plugins.Plugin
 
     init: (app, @framework, @config) =>
-      env.logger.info("Hello World")
+      deviceConfigDef = require("./device-config-schema")
+      @framework.deviceManager.registerDeviceClass("IpCamera",{
+        configDef : deviceConfigDef.IpCamera,
+        createCallback : (config) => new IpCamera(config)
+      })
 
-  # ###Finally
-  # Create a instance of my plugin
+  class IpCamera extends env.devices.Device
+    attributes:
+      message:
+        description: "The message to display"
+        type: "string"
+    constructor: (@config) ->
+      env.logger.info(@config.message)
+      @id = @config.id
+      @name = @config.name
+      @_message = @config.message
+      super()
+    getMessage : -> Promise.resolve(@_message)
+
   myPlugin = new IpCameraPlugin
-  # and return it to the framework.
   return myPlugin
