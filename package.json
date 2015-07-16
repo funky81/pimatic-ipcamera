@@ -5,7 +5,9 @@
   "files": [
     "ip-camera.coffee",
     "README.md",
-    "ip-camera-config-schema.coffee"
+    "ip-camera-config-schema.coffee",
+    "app/IpCameraTempl-page.coffee",
+    "app/IpCameraTempl-template.html"
   ],
   "version": "0.0.1",
   "homepage": "http://github.com/funky81/pimatic-ip-camera",
