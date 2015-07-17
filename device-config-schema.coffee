@@ -2,7 +2,7 @@
 # Declare your config option for your plugin here. 
 module.exports = {
   title: "Ip Camera"
-  IpCamera :{
+  IpCameraDevice :{
     title: "Plugin Properties"
     type: "object"
     extensions: ["xLink"]
