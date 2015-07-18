@@ -49,11 +49,10 @@ module.exports = (env) ->
 		getFilename: -> Promise.resolve(@filename)
 		getSnapshot: (@filename) ->
 			camera = new MjpegCamera(url: cameraUrl)
-			Promise.promisifyAll(camera)
-			
-			camera.getScreenshotAsync().then((err,frame)=>
+			camera.getScreenshot((err,frame)=>
 				fs.writeFileSync(@filename, frame)
-			)
+				return
+		  )
 			return
 
 	myPlugin = new IpCameraPlugin
