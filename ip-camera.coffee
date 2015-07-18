@@ -29,34 +29,30 @@ module.exports = (env) ->
 			message:
 				description: "The message to display"
 				type: "string"
-	
+			filename:
+				description: "File name of the output"
+				type: "string"
+		template: 'ipcamera'
+		
+		filenameX = "asdasdas"
 		cameraUrl = ""
-		fileName = 'camera-screenshot.jpg'
 		
 		constructor: (@config,@plugin) ->
 			@id = @config.id
 			@name = @config.name
+			@filename = @config.filename
 			cameraUrl = 'http://jarvis.keluargareski.net:50803/?action=stream'
 			super()
-			setInterval( ( => @getSnapshot() ), 1000*5)
+			setInterval( ( => @getSnapshot(@filename) ), 1000*5)
 			
 		getMessage : -> Promise.resolve(@message)
-		getSnapshot: () ->
-			@plugin.debug "Test Before OK "+ cameraUrl
-			camera = new MjpegCamera(url: cameraUrl) 
-			#fs.exists(fileName,(exists)->
-		#		if exists
-			#		fs.unlinkSync(fileName);
-		#		return
-			#)
+		getFilename: -> Promise.resolve(@filename)
+		getSnapshot: (@filename) ->
+			camera = new MjpegCamera(url: cameraUrl)
+			Promise.promisifyAll(camera)
 			
-			camera.getScreenshot((err,frame)->
-					env.logger.info "Test OK"
-					env.logger.info frame
-					try fs.writeFileSync(fileName, frame)
-					catch
-						env.logger.info "ERROR"
-					return
+			camera.getScreenshotAsync().then((err,frame)=>
+				fs.writeFileSync(@filename, frame)
 			)
 			return
 
