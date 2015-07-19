@@ -7,11 +7,14 @@ module.exports = {
 		type: "object"
 		extensions: ["xLink"]
 		properties:
-			message:  
-				description: "Text to be displayed"
-				format: "string"   
+			cameraUrl:
+				description: "URL of IP Camera"
+				type: "string"
 			filename:
 				description: "File name of the output"
 				type: "string"             
+			refresh:
+				description: "Time to refresh screenshot"
+				type: "number"
 	}
 }

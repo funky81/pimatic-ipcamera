@@ -26,31 +26,38 @@ module.exports = (env) ->
 			
 	class IpCameraDevice extends env.devices.Device
 		attributes:
-			message:
-				description: "The message to display"
-				type: "string"
+			cameraUrl:
+				description: "URL of IP Camera"
+				type: "string"		
 			filename:
 				description: "File name of the output"
 				type: "string"
+			refresh:
+				description: "Time to refresh screenshot"
+				type: "number"
 		template: 'ipcamera'
 		
-		filenameX = "asdasdas"
 		cameraUrl = ""
 		
 		constructor: (@config,@plugin) ->
 			@id = @config.id
 			@name = @config.name
 			@filename = @config.filename
-			cameraUrl = 'http://jarvis.keluargareski.net:50803/?action=stream'
+			@refresh = @config.refresh
+			@cameraUrl = @config.cameraUrl
 			super()
-			setInterval( ( => @getSnapshot(@filename) ), 1000*5)
-			
-		getMessage : -> Promise.resolve(@message)
+			if @refresh > 0
+				setInterval( ( => @getSnapshot(@filename) ), 1000*@refresh)
+			#@getSnapshot(@filename)
+		
+		getCameraUrl : -> Promise.resolve(@cameraUrl)	
+		getRefresh : -> Promise.resolve(@refresh)
 		getFilename: -> Promise.resolve(@filename)
 		getSnapshot: (@filename) ->
-			camera = new MjpegCamera(url: cameraUrl)
+			camera = new MjpegCamera(url: @cameraUrl)
 			camera.getScreenshot((err,frame)=>
-				fs.writeFileSync(@filename, frame)
+				#@plugin.debug "masuk sini lagi..."
+				fs.writeFileSync("pimatic-dev\\node_modules\\pimatic-mobile-frontend\\public\\"+@filename, frame)
 				return
 		  )
 			return

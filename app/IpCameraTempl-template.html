@@ -1,7 +1,10 @@
 <script id="ipcamera-template" type="text/template">
-    <li class="sortable device no-header ipcamera-device">
-        <label data-bind="text: id"/>-<label data-bind="text: imagePath"/><br/>
-        <a data-bind="click: onButtonPress" class="ui-btn ui-mini ui-btn-inline ui-corner-all">click me</a><br/>
-        <img data-bind="attr:{src: imagePath}" />
+    <li data-bind="attr: { id: id }" class="sortable no-header">
+        <div>
+            <label class="device-label" data-bind="text: name" />
+        </div>
+        <div>
+            <img data-bind="attr:{src: filename}" />
+        </div>
     </li>
 </script>
