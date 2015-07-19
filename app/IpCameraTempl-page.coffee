@@ -5,7 +5,7 @@ $(document).on( "templateinit", (event) ->
 		constructor: (templData, @device) ->
 			@id = @device.id
 			@name = @device.name
-			@filename = @device.config.filename
+			@filename = "img/"+@device.config.filename
 			super(templData,@device)
 			console.log(this)
 		#afterRender: (elements) -> 

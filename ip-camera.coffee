@@ -50,11 +50,13 @@ module.exports = (env) ->
 		getSnapshot: (@filename) ->
 			camera = new MjpegCamera(url: @cameraUrl)
 			camera.getScreenshot((err,frame)=>
-				dirString = path.dirname(fs.realpathSync(__filename+"\\..\\"));
-				fs.exists(dirString,(exists)=>
-					if exists
-						fs.writeFile(dirString+"\\pimatic-mobile-frontend\\public\\"+@filename, frame)
-						return
+				dirString = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\"
+				imgPath = dirString + "img\\"
+				fs.exists(imgPath,(exists)=>
+					if !exists 
+						fs.mkdir(imgPath)
+					fs.writeFile(imgPath+@filename, frame)
+					return
 				)
 				return
 		  )
