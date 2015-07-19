@@ -17,11 +17,6 @@ module.exports = (env) ->
 				if mobileFrontend?
 					mobileFrontend.registerAssetFile 'js', "pimatic-ipcamera/app/IpCameraTempl-page.coffee"
 					mobileFrontend.registerAssetFile 'html', "pimatic-ipcamera/app/IpCameraTempl-template.html"
-					#mobileFrontend.registerAssetFile 'js', "pimatic-ipcamera/rpi/rpicam-item.coffee"
-					#mobileFrontend.registerAssetFile 'js', "pimatic-ipcamera/rpi/rpicam-page.coffee"
-					#mobileFrontend.registerAssetFile 'html', "pimatic-ipcamera/rpi/rpicam-item.html"
-					#mobileFrontend.registerAssetFile 'html', "pimatic-ipcamera/rpi/rpicam-page.jade"
-					#mobileFrontend.registerAssetFile 'css', "pimatic-ipcamera/rpi/rpicam.css"
 		debug: (text) =>
 			env.logger.info text
 			
@@ -58,7 +53,6 @@ module.exports = (env) ->
 				dirString = path.dirname(fs.realpathSync(__filename+"\\..\\"));
 				fs.exists(dirString,(exists)=>
 					if exists
-						@plugin.debug "masuk sini "+@filename
 						fs.writeFile(dirString+"\\pimatic-mobile-frontend\\public\\"+@filename, frame)
 						return
 				)
