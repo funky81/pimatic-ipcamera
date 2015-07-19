@@ -1,7 +1,7 @@
 module.exports = (env) ->
 	Promise = env.require 'bluebird'
 	assert = env.require 'cassert'
-	MjpegCamera = env.require 'mjpeg-camera'
+	MjpegCamera = require 'mjpeg-camera'
 	fs = env.require 'fs'
 
 	class IpCameraPlugin extends env.plugins.Plugin
@@ -57,7 +57,7 @@ module.exports = (env) ->
 			camera = new MjpegCamera(url: @cameraUrl)
 			camera.getScreenshot((err,frame)=>
 				#@plugin.debug "masuk sini lagi..."
-				fs.writeFileSync("pimatic-dev\\node_modules\\pimatic-mobile-frontend\\public\\"+@filename, frame)
+				fs.writeFile("pimatic-dev\\node_modules\\pimatic-mobile-frontend\\public\\"+@filename, frame)
 				return
 		  )
 			return
