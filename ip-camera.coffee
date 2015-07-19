@@ -3,6 +3,7 @@ module.exports = (env) ->
 	assert = env.require 'cassert'
 	MjpegCamera = require 'mjpeg-camera'
 	fs = env.require 'fs'
+	path = env.require 'path'
 
 	class IpCameraPlugin extends env.plugins.Plugin
 		init: (app, @framework, @config) =>
@@ -45,8 +46,8 @@ module.exports = (env) ->
 			@cameraUrl = @config.cameraUrl
 			super()
 			if @refresh > 0
+				@getSnapshot(@filename)
 				setInterval( ( => @getSnapshot(@filename) ), 1000*@refresh)
-			#@getSnapshot(@filename)
 		
 		getCameraUrl : -> Promise.resolve(@cameraUrl)	
 		getRefresh : -> Promise.resolve(@refresh)
@@ -54,8 +55,13 @@ module.exports = (env) ->
 		getSnapshot: (@filename) ->
 			camera = new MjpegCamera(url: @cameraUrl)
 			camera.getScreenshot((err,frame)=>
-				#@plugin.debug "masuk sini lagi..."
-				fs.writeFile("pimatic-dev\\node_modules\\pimatic-mobile-frontend\\public\\"+@filename, frame)
+				dirString = path.dirname(fs.realpathSync(__filename+"\\..\\"));
+				fs.exists(dirString,(exists)=>
+					if exists
+						@plugin.debug "masuk sini "+@filename
+						fs.writeFile(dirString+"\\pimatic-mobile-frontend\\public\\"+@filename, frame)
+						return
+				)
 				return
 		  )
 			return
