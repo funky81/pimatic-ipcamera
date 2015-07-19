@@ -7,6 +7,7 @@
     "files": [
         "ip-camera.coffee",
         "README.md",
+        "device-config-schema.coffee",
         "ip-camera-config-schema.coffee",
         "app/IpCameraTempl-page.coffee",
         "app/IpCameraTempl-template.html"
@@ -21,7 +22,7 @@
         "surveillance",
         "mjpg"
     ],
-    "version": "0.0.4",
+    "version": "0.0.5",
     "homepage": "http://github.com/funky81/pimatic-ip-camera",
     "private": false,
     "repository": {

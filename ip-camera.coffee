@@ -37,8 +37,6 @@ module.exports = (env) ->
 				type: "number"
 		template: 'ipcamera'
 		
-		cameraUrl = ""
-		
 		constructor: (@config,@plugin) ->
 			@id = @config.id
 			@name = @config.name
