@@ -37,6 +37,12 @@ module.exports = (env) ->
 			refresh:
 				description: "Time to refresh screenshot"
 				type: "number"
+			actions:
+				sendCommand:
+					description: "action for camera"
+					params: 
+						command: 
+							type: "string"				
 		template: 'ipcamera'
 		
 		constructor: (@config,@plugin) ->
@@ -70,6 +76,7 @@ module.exports = (env) ->
 				return
 		  )
 			return
-
+		sendCommand: (command) ->
+			return "test"
 	myPlugin = new IpCameraPlugin
 	return myPlugin

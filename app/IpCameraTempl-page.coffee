@@ -9,8 +9,15 @@ $(document).on( "templateinit", (event) ->
 			@filename = "img/"+@device.config.filename
 			super(templData,@device)
 			console.log(this)
-		#afterRender : (elements) ->
-		#	super
+		afterRender : (elements) ->
+			super(elements)
+			@refreshButton = $(elements).find('[name=refreshButton]')
+			return
+		refreshCommand : -> @sendCommand "refresh"
+		sendCommand: (command) ->
+			@device.rest.sendCommand({command}, global: no)
+				.done(ajaxShowToast)
+				.fail(ajaxAlertFail)
 
     # register the item-class
 	pimatic.templateClasses['ipcamera'] = IpCameraDeviceItem
