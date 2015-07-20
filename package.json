@@ -22,7 +22,7 @@
         "surveillance",
         "mjpg"
     ],
-    "version": "0.0.7",
+    "version": "0.0.8",
     "homepage": "http://github.com/funky81/pimatic-ip-camera",
     "private": false,
     "repository": {

@@ -17,8 +17,14 @@ module.exports = (env) ->
 				if mobileFrontend?
 					mobileFrontend.registerAssetFile 'js', "pimatic-ipcamera/app/IpCameraTempl-page.coffee"
 					mobileFrontend.registerAssetFile 'html', "pimatic-ipcamera/app/IpCameraTempl-template.html"
-		debug: (text) =>
+		info: (text) ->
 			env.logger.info text
+			return
+		debug: (text) ->
+			env.logger.debug text
+			return
+		replaceAll: (x,s,r) -> 
+			return x.split(s).join(r)
 			
 	class IpCameraDevice extends env.devices.Device
 		attributes:
@@ -52,8 +58,11 @@ module.exports = (env) ->
 			camera.getScreenshot((err,frame)=>
 				dirString = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\"
 				imgPath = dirString + "img\\"
+				if process.platform not in ['win32', 'win64']
+					imgPath = @plugin.replaceAll(imgPath,"\\","/")
 				fs.exists(imgPath,(exists)=>
 					if !exists 
+						@plugin.debug "Creating Image Path...only create one time"
 						fs.mkdir(imgPath)
 					fs.writeFile(imgPath+@filename, frame)
 					return
