@@ -2,6 +2,7 @@ $(document).on( "templateinit", (event) ->
  
   # define the item class
 	class IpCameraDeviceItem extends pimatic.DeviceItem
+		x=0	
 		constructor: (templData, @device) ->
 			@id = @device.id
 			@imgId = "img"+@device.id
@@ -12,13 +13,29 @@ $(document).on( "templateinit", (event) ->
 		afterRender : (elements) ->
 			super(elements)
 			@refreshButton = $(elements).find('[name=refreshButton]')
+			#@device.rest.sendCommand({"refresh"}, global: no)
 			return
 		refreshCommand : -> @sendCommand "refresh"
 		sendCommand: (command) ->
 			@device.rest.sendCommand({command}, global: no)
-				.done(ajaxShowToast)
-				.fail(ajaxAlertFail)
-
+			#console.log(this)
+			.done(()=>
+				x=setInterval((=>
+					$("#"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
+					console.log("update terus")
+				),1000)
+				$("#"+@imgId)
+					.on "load",()-> 
+						clearInterval(x)
+						console.log("load")
+					.on "error",()-> 
+						console.log("failed")
+						return						
+					.attr("src",@filename + "?ts="+ new Date().getTime())
+				return
+			).fail(ajaxAlertFail)
+			return
+		
     # register the item-class
 	pimatic.templateClasses['ipcamera'] = IpCameraDeviceItem
 )
