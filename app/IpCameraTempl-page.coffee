@@ -13,7 +13,7 @@ $(document).on( "templateinit", (event) ->
 		afterRender : (elements) ->
 			super(elements)
 			@refreshButton = $(elements).find('[name=refreshButton]')
-			#@device.rest.sendCommand({"refresh"}, global: no)
+			@device.rest.sendCommand({command:"refresh"}, global: no)
 			return
 		refreshCommand : -> @sendCommand "refresh"
 		sendCommand: (command) ->
@@ -22,14 +22,14 @@ $(document).on( "templateinit", (event) ->
 			.done(()=>
 				x=setInterval((=>
 					$("#"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
-					console.log("update terus")
+					#console.log("update terus")
 				),1000)
 				$("#"+@imgId)
 					.on "load",()-> 
 						clearInterval(x)
-						console.log("load")
+						#console.log("load")
 					.on "error",()-> 
-						console.log("failed")
+						#console.log("failed")
 						return						
 					.attr("src",@filename + "?ts="+ new Date().getTime())
 				return
