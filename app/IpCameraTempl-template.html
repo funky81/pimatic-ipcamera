@@ -4,7 +4,10 @@
             <label class="device-label" data-bind="text: name" />
         </div>
         <div>
-            <img data-bind="attr:{src: filename}" />
+            <img data-bind="attr:{src: filename,id: imgId}" /><br/>
+        </div>
+        <div>
+            <a class="ui-btn ui-corner-all" name="maxButton" data-bind="">Refresh</a>
         </div>
     </li>
 </script>
