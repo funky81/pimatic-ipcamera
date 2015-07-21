@@ -73,7 +73,7 @@ module.exports = (env) ->
 				try
 					#@plugin.info "enter get screenshot process for " + @filename
 					imgPath = ""
-					if process.platform not in ['win32', 'win64']
+					if process.platform in ['win32', 'win64']
 						imgPath = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\img\\"
 						#imgPath = dirString + "img\\"
 					else
