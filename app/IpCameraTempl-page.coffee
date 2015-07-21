@@ -27,9 +27,9 @@ $(document).on( "templateinit", (event) ->
 				$("#"+@imgId)
 					.on "load",()-> 
 						clearInterval(x)
-						#console.log("load")
+						console.log("load success for "+@filename)
 					.on "error",()-> 
-						#console.log("failed")
+						console.log("still failed for loading "+@filename)
 						return						
 					.attr("src",@filename + "?ts="+ new Date().getTime())
 				return
