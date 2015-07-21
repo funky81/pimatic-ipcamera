@@ -72,10 +72,14 @@ module.exports = (env) ->
 				#@plugin.info err
 				try
 					#@plugin.info "enter get screenshot process for " + @filename
-					dirString = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\"
-					imgPath = dirString + "img\\"
+					imgPath = ""
 					if process.platform not in ['win32', 'win64']
-						imgPath = @plugin.replaceAll(imgPath,"\\","/")
+						imgPath = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\img\\"
+						#imgPath = dirString + "img\\"
+					else
+						imgPath = path.dirname(fs.realpathSync(__filename+"/../"))+"/pimatic-mobile-frontend/public/img/"
+						#imgPath = dirString + "img/"
+						#imgPath = @plugin.replaceAll(imgPath,"\\","/")
 					fs.exists(imgPath,(exists)=>
 						if !exists 
 							#@plugin.info "Creating Image Path...only create one time"
