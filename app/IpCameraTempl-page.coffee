@@ -13,10 +13,13 @@ $(document).on( "templateinit", (event) ->
 		afterRender : (elements) ->
 			super(elements)
 			@refreshButton = $(elements).find('[name=refreshButton]')
-			@device.rest.sendCommand({command:"refresh"}, global: no)
+			@updateImage("refresh")
 			return
 		refreshCommand : -> @sendCommand "refresh"
 		sendCommand: (command) ->
+			@updateImage(command)
+			return
+		updateImage : (command) ->
 			@device.rest.sendCommand({command}, global: no)
 			#console.log(this)
 			.done(()=>
@@ -34,8 +37,7 @@ $(document).on( "templateinit", (event) ->
 					.attr("src",@filename + "?ts="+ new Date().getTime())
 				return
 			).fail(ajaxAlertFail)
-			return
-		
+			return		
     # register the item-class
 	pimatic.templateClasses['ipcamera'] = IpCameraDeviceItem
 )
