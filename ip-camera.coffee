@@ -69,7 +69,7 @@ module.exports = (env) ->
 			catch xxx
 				@plugin.info "error @snapshot " + @filename + ":" + xxx
 			camera.getScreenshot((err,frame)=>
-				@plugin.info err
+				#@plugin.info err
 				try
 					#@plugin.info "enter get screenshot process for " + @filename
 					dirString = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\"
@@ -86,7 +86,7 @@ module.exports = (env) ->
 					fs.writeFileSync(imgPath+@filename, frame)
 					return
 				catch err
-					@plugin.info "error grab frame " + err
+					@plugin.info "error grab frame @getsnapshot function " + err
 		  )
 			return
 		sendCommand: (command) ->
