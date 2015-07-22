@@ -21,6 +21,9 @@ module.exports = (env) ->
 		info: (text) ->
 			env.logger.info text
 			return
+		error: (text) ->
+			env.logger.error text
+			return			
 		debug: (text) ->
 			env.logger.debug text
 			return
@@ -67,7 +70,7 @@ module.exports = (env) ->
 				camera = new MjpegCamera(url: @cameraUrl)
 				#@plugin.info "after beginning of get snapshot " + @filename
 			catch xxx
-				@plugin.info "error @snapshot " + @filename + ":" + xxx
+				@plugin.error "error @snapshot " + @filename + ":" + xxx
 			camera.getScreenshot((err,frame)=>
 				#@plugin.info err
 				try
@@ -86,11 +89,11 @@ module.exports = (env) ->
 							fs.mkdir(imgPath)
 						return
 					)
-					#@plugin.info "creating file "+ @filename
+					@plugin.debug "creating file "+ @filename
 					fs.writeFileSync(imgPath+@filename, frame)
 					return
 				catch err
-					@plugin.info "error grab frame @getsnapshot function " + err
+					@plugin.error "error grab frame @getsnapshot function " + err
 		  )
 			return
 		sendCommand: (command) ->
