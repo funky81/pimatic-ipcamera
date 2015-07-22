@@ -47,4 +47,4 @@ Roadmap
 ---------------
     0.1.*   : Support for MJPEG camera snapshot
     0.2.*   : Support for RTSP camera snapshot
-    0.3.*   : support for motion and predicate handler, includes integration with Pimatic Rules
+    0.3.*   : support for motion and predicate handler, includes integration with Pimatic Rules, authentication, SSL Support
