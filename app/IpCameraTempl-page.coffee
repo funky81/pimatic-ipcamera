@@ -1,19 +1,23 @@
 $(document).on( "templateinit", (event) ->
- 
+	arrId=[]
   # define the item class
 	class IpCameraDeviceItem extends pimatic.DeviceItem
 		x=0	
 		constructor: (templData, @device) ->
-			@id = @device.id
-			@imgId = "img"+@device.id
+			uId = ""#snew Date().getTime()
+			@id = @device.id + uId
+			@imgId = "img"+@device.id+ uId
 			@name = @device.name
 			@filename = "img/"+@device.config.filename
 			super(templData,@device)
-			console.log(this)
+			#console.log(this)
 		afterRender : (elements) ->
 			super(elements)
 			@refreshButton = $(elements).find('[name=refreshButton]')
-			@updateImage("refresh")
+			if @id not in arrId
+				arrId.push @id
+				console.log arrId
+				@device.rest.sendCommand({command:"refresh"}, global: no)
 			return
 		refreshCommand : -> @sendCommand "refresh"
 		sendCommand: (command) ->
@@ -21,17 +25,18 @@ $(document).on( "templateinit", (event) ->
 			return
 		updateImage : (command) ->
 			@device.rest.sendCommand({command}, global: no)
-			#console.log(this)
-			.done(()=>
+			.done((data)=>
+				console.log(data)
 				x=setInterval((=>
-					$("#"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
-					#console.log("update terus")
+					$("."+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
+					console.log("update terus "+x)
 				),1000)
-				$("#"+@imgId)
-					.on "load",()-> 
+				$("."+@imgId)
+					.on "load",()=>
 						clearInterval(x)
 						console.log("load success for "+@filename)
-					.on "error",()-> 
+						return
+					.on "error",()=> 
 						console.log("still failed for loading "+@filename)
 						return						
 					.attr("src",@filename + "?ts="+ new Date().getTime())
