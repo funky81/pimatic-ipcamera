@@ -39,3 +39,12 @@ Description:
     filename : location of local filename, will be represent inside of your img folder in pimatic-mobile-frontend/public/img
     refresh : time taken in seconds
 
+Version History
+---------------
+    0.1.2 : First time release plugins
+    
+Roadmap
+---------------
+    0.1.*   : Support for MJPEG camera snapshot
+    0.2.*   : Support for RTSP camera snapshot
+    0.3.*   : support for motion and predicate handler, includes integration with Pimatic Rules
