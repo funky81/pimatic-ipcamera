@@ -1,5 +1,4 @@
 $(document).on( "templateinit", (event) ->
-	arrId=[]
   # define the item class
 	class IpCameraDeviceItem extends pimatic.DeviceItem
 		x=0	
@@ -14,11 +13,6 @@ $(document).on( "templateinit", (event) ->
 		afterRender : (elements) ->
 			super(elements)
 			@refreshButton = $(elements).find('[name=refreshButton]')
-			if @id not in arrId
-				arrId.push @id
-				console.log arrId
-				@device.rest.sendCommand({command:"refresh"}, global: no)
-			return
 		refreshCommand : -> @sendCommand "refresh"
 		sendCommand: (command) ->
 			@updateImage(command)
@@ -26,10 +20,8 @@ $(document).on( "templateinit", (event) ->
 		updateImage : (command) ->
 			@device.rest.sendCommand({command}, global: no)
 			.done((data)=>
-				console.log(data)
 				x=setInterval((=>
 					$("."+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
-					console.log("update terus "+x)
 				),1000)
 				$("."+@imgId)
 					.on "load",()=>
@@ -39,7 +31,7 @@ $(document).on( "templateinit", (event) ->
 					.on "error",()=> 
 						console.log("still failed for loading "+@filename)
 						return						
-					.attr("src",@filename + "?ts="+ new Date().getTime())
+					# .attr("src",@filename + "?ts="+ new Date().getTime())
 				return
 			).fail(ajaxAlertFail)
 			return		
