@@ -3,9 +3,9 @@ $(document).on( "templateinit", (event) ->
 	class IpCameraDeviceItem extends pimatic.DeviceItem
 		x=0	
 		constructor: (templData, @device) ->
-			uId = ""#snew Date().getTime()
-			@id = @device.id + uId
-			@imgId = "img"+@device.id+ uId
+			uId = ""
+			@id = @device.id
+			@imgId = "img"+@device.id
 			@name = @device.name
 			@filename = "img/"+@device.config.filename
 			super(templData,@device)
