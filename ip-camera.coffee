@@ -41,6 +41,12 @@ module.exports = (env) ->
 			refresh:
 				description: "Time to refresh screenshot"
 				type: "number"
+			width:
+				description: "Width of the Image"
+				type: "number"				
+			height:
+				description: "Height of the Image"
+				type: "number"								
 		actions:
 			sendCommand:
 				description: "action for camera"
@@ -55,12 +61,16 @@ module.exports = (env) ->
 			@filename = @config.filename
 			@refresh = @config.refresh
 			@cameraUrl = @config.cameraUrl
+			@width = @config.width
+			@height = @config.height
 			super()
 			#@getSnapshot(@filename)
 			#if @refresh > 0
 			#	@getSnapshot(@filename)
 			#	setInterval( ( => @getSnapshot(@filename) ), 1000*@refresh)
 		
+		getWidth: -> Promise.resolve(@width)
+		getHeight: -> Promise.resolve(@height)
 		getCameraUrl : -> Promise.resolve(@cameraUrl)	
 		getRefresh : -> Promise.resolve(@refresh)
 		getFilename: -> Promise.resolve(@filename)

@@ -16,5 +16,11 @@ module.exports = {
 			refresh:
 				description: "Time to refresh screenshot"
 				type: "number"
+			width:
+				description: "Width of the Image"
+				type: "number"				
+			height:
+				description: "Height of the Image"
+				type: "number"				
 	}
 }

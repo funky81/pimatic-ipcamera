@@ -8,6 +8,8 @@ $(document).on( "templateinit", (event) ->
 			@imgId = "img"+@device.id
 			@name = @device.name
 			@filename = "img/"+@device.config.filename
+			@width = @device.width
+			@height = @device.height
 			super(templData,@device)
 			#console.log(this)
 		afterRender : (elements) ->
