@@ -41,12 +41,15 @@ module.exports = (env) ->
 			refresh:
 				description: "Time to refresh screenshot"
 				type: "number"
+				default: 0
 			width:
 				description: "Width of the Image"
 				type: "number"				
+				default : 240
 			height:
 				description: "Height of the Image"
-				type: "number"								
+				type: "number"	
+				default : 160											
 		actions:
 			sendCommand:
 				description: "action for camera"

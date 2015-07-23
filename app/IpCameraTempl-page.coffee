@@ -8,11 +8,11 @@ $(document).on( "templateinit", (event) ->
 			@imgId = "img"+@device.id
 			@name = @device.name
 			@filename = "img/"+@device.config.filename
-			@width = @device.config.width
-			@height = @device.config.height
+			@width = @device.config.width  ? @device.configDefaults.width
+			@height = @device.config.height ? @device.configDefaults.height 
 			console.log(@height + " " + @width)
 			super(templData,@device)
-			#console.log(this)
+			console.log(this)
 		afterRender : (elements) ->
 			super(elements)
 			@refreshButton = $(elements).find('[name=refreshButton]')
@@ -34,7 +34,7 @@ $(document).on( "templateinit", (event) ->
 					.on "error",()=> 
 						console.log("still failed for loading "+@filename)
 						return						
-					# .attr("src",@filename + "?ts="+ new Date().getTime())
+					.attr("src",@filename + "?ts="+ new Date().getTime())
 				return
 			).fail(ajaxAlertFail)
 			return		

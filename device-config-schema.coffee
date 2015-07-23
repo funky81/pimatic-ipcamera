@@ -19,8 +19,10 @@ module.exports = {
 			width:
 				description: "Width of the Image"
 				type: "number"				
+				default : 240				
 			height:
 				description: "Height of the Image"
-				type: "number"				
+				type: "number"
+				default : 160				
 	}
 }
