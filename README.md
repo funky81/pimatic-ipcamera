@@ -55,6 +55,7 @@ Not supported yet or unknown:
     
 for better list check here http://www.ispyconnect.com
 for example
+
     Panasonic BL-C1 : http://www.ispyconnect.com/man.aspx?n=panasonic (currently only support MJPEG in connection type column)
 
 Version History
