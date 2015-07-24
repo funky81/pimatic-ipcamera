@@ -46,7 +46,7 @@ Different cameraUrl types
 
 Supported:
 
-    [host]:[port]/[script]?user=[user]&pwd=[password]&resolution=[resolution]
+    [host]:[port]/[script]?user=[user]&pwd=[password]
 
 Not supported yet:
 
