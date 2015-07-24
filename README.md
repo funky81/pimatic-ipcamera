@@ -59,6 +59,7 @@ for example
 
 Version History
 ---------------
+    1.0.0 : Stable release
     0.1.2 : First time release plugins
     
 Roadmap
