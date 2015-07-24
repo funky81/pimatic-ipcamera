@@ -46,13 +46,13 @@ Different cameraUrl types
 
 Supported:
 
-    http://[host]:[port]/[script]?user=[user]&pwd=[password]
+    http://[host]:[port]/[script.extension]?user=[user]&pwd=[password]
 
 Not supported yet:
 
-    http://[host]:[port]/[script]?user=[user]&password=[password]
-    http://[host]:[port]/[directory]/[script]?-usr=[user]&-pwd=[password] 
-    http://[user]:[password]@[host]:[port]
+    http://[host]:[port]/[script.extension]?user=[user]&password=[password]
+    http://[host]:[port]/[directory]/[script.extension]?-usr=[user]&-pwd=[password] 
+    http://[user]:[password]@[host]:[port]/[script.extension]
 
 Version History
 ---------------
