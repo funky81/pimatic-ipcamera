@@ -57,7 +57,7 @@ module.exports = (env) ->
 					command: 
 						type: "string"				
 		template: 'ipcamera'
-		
+		isCreateDir = false
 		constructor: (@config,@plugin) ->
 			@id = @config.id
 			@name = @config.name
@@ -66,12 +66,29 @@ module.exports = (env) ->
 			@cameraUrl = @config.cameraUrl
 			@width = @config.width
 			@height = @config.height
-			super()
 			#@getSnapshot(@filename)
 			#if @refresh > 0
 			#	@getSnapshot(@filename)
 			#	setInterval( ( => @getSnapshot(@filename) ), 1000*@refresh)
-		
+			@imgPath = ""
+			if process.platform in ['win32', 'win64']
+				@imgPath = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\img\\"
+			else
+				@imgPath = path.dirname(fs.realpathSync(__filename+"/../"))+"/pimatic-mobile-frontend/public/img/"			
+			fs.exists(@imgPath,(exists)=>
+				if !exists 
+					@plugin.info "masuk sini lagi " + exists
+					try 
+						if isCreateDir == false
+							fs.mkdir(@imgPath,(stat)=>
+								@plugin.info "Create directory for the first time"
+							)
+							isCreateDir = true
+					catch fsErr
+						@plugin.error "error because " + fsErr
+			)
+			super()
+			
 		getWidth: -> Promise.resolve(@width)
 		getHeight: -> Promise.resolve(@height)
 		getCameraUrl : -> Promise.resolve(@cameraUrl)	
@@ -88,31 +105,17 @@ module.exports = (env) ->
 				#@plugin.info err
 				try
 					#@plugin.info "enter get screenshot process for " + @filename
-					imgPath = ""
-					if process.platform in ['win32', 'win64']
-						imgPath = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\img\\"
-						#imgPath = dirString + "img\\"
-					else
-						imgPath = path.dirname(fs.realpathSync(__filename+"/../"))+"/pimatic-mobile-frontend/public/img/"
-						#imgPath = dirString + "img/"
-						#imgPath = @plugin.replaceAll(imgPath,"\\","/")
-					fs.exists(imgPath,(exists)=>
-						if !exists 
-							#@plugin.info "Creating Image Path...only create one time"
-							fs.mkdir(imgPath)
-						return
-					)
-					@plugin.debug "creating file "+ @filename
-					fs.writeFileSync(imgPath+@filename, frame)
-					return
+					fs.writeFileSync(@imgPath+@filename, frame)
+					return true
 				catch err
 					@plugin.error "error grab frame @getsnapshot function " + err
+					return false
 		  )
 			return
 		sendCommand: (command) ->
 			#@plugin.info "get snapshot from "+@filename
-			@getSnapshot(@filename)
-			return
+			stat = @getSnapshot(@filename)
+			return stat
 			
 	class IpCameraActionProvider extends env.actions.ActionProvider
 		constructor: (@framework)->
