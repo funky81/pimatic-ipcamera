@@ -52,6 +52,10 @@ Not supported yet or unknown:
 
     http://[host]:[port]/[directory]/[script.extension]?-usr=[user]&-pwd=[password] 
     http://[user]:[password]@[host]:[port]/[script.extension]
+    
+for better list check here http://www.ispyconnect.com
+for example
+    Panasonic BL-C1 : http://www.ispyconnect.com/man.aspx?n=panasonic (currently only support MJPEG in connection type column)
 
 Version History
 ---------------
