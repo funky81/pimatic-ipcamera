@@ -48,7 +48,7 @@ Supported:
 
     http://[host]:[port]/[script.extension]?user=[user]&pwd=[password]
 
-Unknown or not supported yet:
+Not supported yet or unknown:
 
     http://[host]:[port]/[directory]/[script.extension]?-usr=[user]&-pwd=[password] 
     http://[user]:[password]@[host]:[port]/[script.extension]
