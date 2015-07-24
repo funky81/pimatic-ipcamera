@@ -67,9 +67,9 @@ module.exports = (env) ->
 			@width = @config.width
 			@height = @config.height
 			#@getSnapshot(@filename)
-			#if @refresh > 0
-			#	@getSnapshot(@filename)
-			#	setInterval( ( => @getSnapshot(@filename) ), 1000*@refresh)
+			if @refresh > 0
+				@getSnapshot(@filename)
+				setInterval( ( => @getSnapshot(@filename) ), 1000*@refresh)
 			@imgPath = ""
 			if process.platform in ['win32', 'win64']
 				@imgPath = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\img\\"
