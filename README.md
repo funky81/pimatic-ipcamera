@@ -21,11 +21,11 @@ Configuration
 then you have to add your devices into your config.json based on these schema
 
     {
-      "id" : "ID of your camera",
-      "class": "IpCameraDevice",
+      "id": "ID of your camera",
       "name": "Name of your camera",
-      "filename": "Filename",
+      "class": "IpCameraDevice",
       "cameraUrl": "URL from your camera",
+      "filename": "Filename",
       "refresh": Snapshot refresh
     },
 
@@ -37,7 +37,7 @@ Description:
     class : device class
     cameraUrl : url that direct to your http mjpeg server (should include all, include path to file)
     filename : location of local filename, will be represent inside of your img folder in pimatic-mobile-frontend/public/img
-    refresh : time taken in seconds
+    refresh : time taken in seconds!
 
 Compatibility
 -------------
