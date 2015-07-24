@@ -39,6 +39,21 @@ Description:
     filename : location of local filename, will be represent inside of your img folder in pimatic-mobile-frontend/public/img
     refresh : time taken in seconds
 
+Compatibility
+-------------
+
+Different cameraUrl types
+
+Supported:
+
+    [host]:[port]/[script]?user=[user]&pwd=[password] 
+
+Not supported yet:
+
+    [host]:[port]/[script]?user=[user]&password=[password]
+    [host]:[port]/[directory]/[script]?-usr=[user]&-pwd=[password] 
+    [user]:[password]@[host]:[port]
+
 Version History
 ---------------
     0.1.2 : First time release plugins
