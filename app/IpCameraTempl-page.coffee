@@ -10,9 +10,7 @@ $(document).on( "templateinit", (event) ->
 			@filename = "img/"+@device.config.filename
 			@width = @device.config.width  ? @device.configDefaults.width
 			@height = @device.config.height ? @device.configDefaults.height 
-			console.log(@height + " " + @width)
 			super(templData,@device)
-			console.log(this)
 		afterRender : (elements) ->
 			super(elements)
 			@refreshButton = $(elements).find('[name=refreshButton]')
@@ -21,14 +19,25 @@ $(document).on( "templateinit", (event) ->
 			@updateImage(command)
 			return
 		updateImage : (command) ->
+#			$.ajax({url: 'api/device/'+@id+'/sendCommand?command=refresh',async:false})
+#			.done(()=>
+#				$("."+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
+#			)
+#			return
+
+#			socket = pimatic.socket
+#			
 			@device.rest.sendCommand({command}, global: no)
 			.done((data)=>
 				x=setInterval((=>
 					$("."+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
+					pimatic.loading "deletedevice", "show", text: __('Saving')
+					console.log "test"
 				),1000)
 				$("."+@imgId)
 					.on "load",()=>
 						clearInterval(x)
+						pimatic.loading "deletedevice", "hide"
 						console.log("load success for "+@filename)
 						return
 					.on "error",()=> 
@@ -37,6 +46,8 @@ $(document).on( "templateinit", (event) ->
 					.attr("src",@filename + "?ts="+ new Date().getTime())
 				return
 			).fail(ajaxAlertFail)
+
+
 			return		
     # register the item-class
 	pimatic.templateClasses['ipcamera'] = IpCameraDeviceItem
