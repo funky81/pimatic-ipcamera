@@ -21,12 +21,12 @@ Configuration
 then you have to add your devices into your config.json based on these schema
 
     {
-      "id" : [ID of your camera],
-      "class": IpCameraDevice,
-      "name": [Name of your camera],
-      "filename": [Filename],
-      "cameraUrl": [URL from your camera],
-      "refresh": [Snapshot refresh]
+      "id" : "ID of your camera",
+      "class": "IpCameraDevice",
+      "name": "Name of your camera",
+      "filename": "Filename",
+      "cameraUrl": "URL from your camera",
+      "refresh": Snapshot refresh
     },
 
 Description:
@@ -46,7 +46,7 @@ Different cameraUrl types
 
 Supported:
 
-    [host]:[port]/[script]?user=[user]&pwd=[password] 
+    [host]:[port]/[script]?user=[user]&pwd=[password]&resolution=[resolution]
 
 Not supported yet:
 
