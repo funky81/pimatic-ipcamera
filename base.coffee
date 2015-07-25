@@ -23,7 +23,7 @@ class Base
 			boundary = '--boundandrebound'
 			@array.forEach((entry)=>
 				if !stat
-					@plugin.info "entry : /stream/" + entry["id"] + " "+req.url
+					#@plugin.info "entry : /stream/" + entry["id"] + " "+req.url
 					if (("/stream/"+entry["id"]).toLowerCase()==req.url.toLowerCase()) 
 						#@plugin.info "masuk yuks"	
 						entry["camera"].start()

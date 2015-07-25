@@ -15,8 +15,13 @@ $(document).on( "templateinit", (event) ->
 		afterRender : (elements) ->
 			super(elements)
 			@refreshButton = $(elements).find('[name=refreshButton]')
-		refreshCommand : -> @sendCommand "refresh"
-		sendCommand: (command) ->
+		stopStream : -> @streamCommand "stop"
+		startStream : -> @streamCommand "start"
+		streamCommand: (command) ->
+			if command == "stop"
+				$("."+@imgId).attr('src','')
+			else
+				$("."+@imgId).attr('src',"http://localhost:10000/stream/"+@id)
 			return
 		updateImage : (command) ->
 			return
