@@ -54,8 +54,8 @@ module.exports = (env) ->
 				type: "number"	
 				default : 160											
 		actions:
-			sendCommand:
-				description: "action for camera"
+			streamCommand:
+				description: "Command for streaming"
 				params: 
 					command: 
 						type: "string"				
@@ -77,29 +77,12 @@ module.exports = (env) ->
 		getCameraUrl : -> Promise.resolve(@cameraUrl)	
 		getRefresh : -> Promise.resolve(@refresh)
 		getFilename: -> Promise.resolve(@filename)
-		getSnapshot: (@filename) ->
-			#@plugin.info "beginning of get snapshot " + @filename
-			try
-				camera = new MjpegCamera(url: @cameraUrl)
-				#@plugin.info "after beginning of get snapshot " + @filename
-			catch xxx
-				@plugin.error "error @snapshot " + @filename + ":" + xxx
-			camera.getScreenshot((err,frame)=>
-				#@plugin.info err
-				try
-					#@plugin.info "enter get screenshot process for " + @filename
-					fs.writeFileSync(@imgPath+@filename, frame)
-					return true
-				catch err
-					@plugin.error "error grab frame @getsnapshot function " + err
-					return false
-		  )
-			return
-		sendCommand: (command) ->
-			#@plugin.info "get snapshot from "+@filename
-			stat = @getSnapshot(@filename)
-			return stat
-			
+		streamCommand : (command) ->
+			if command == "stop"
+				@plugin.info "Stop Stream"
+			else
+				@plugin.info "Start Stream"
+						
 	class IpCameraActionProvider extends env.actions.ActionProvider
 		constructor: (@framework)->
 			#env.logger.info "Masuk sini constructor"

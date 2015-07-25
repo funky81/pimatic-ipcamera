@@ -18,8 +18,9 @@ $(document).on( "templateinit", (event) ->
 		stopStream : -> @streamCommand "stop"
 		startStream : -> @streamCommand "start"
 		streamCommand: (command) ->
+			@device.rest.streamCommand({command}, global: no)		
 			if command == "stop"
-				$("."+@imgId).attr('src','')
+				$("."+@imgId).attr('src','/img/'+@id+".jpg")
 			else
 				$("."+@imgId).attr('src',"http://localhost:10000/stream/"+@id)
 			return

@@ -15,23 +15,32 @@ class Base
 		@array = []
 		@createImgDirectory()
 	createImgDirectory: ->
-		imgPath = ""
+		@imgPath = ""
 		if process.platform in ['win32', 'win64']
-			imgPath = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\img\\"
+			@imgPath = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\img\\"
 		else
-			imgPath = path.dirname(fs.realpathSync(__filename+"/../"))+"/pimatic-mobile-frontend/public/img/"			
-		@plugin.info "Create directory for the first time 5 "+imgPath
-		fs.exists(imgPath,(exists)=>
+			@imgPath = path.dirname(fs.realpathSync(__filename+"/../"))+"/pimatic-mobile-frontend/public/img/"			
+		fs.exists(@imgPath,(exists)=>
 			if !exists 
-				@plugin.info "Create directory for the first time 3"
-				fs.mkdir(imgPath,(stat)=>
-					@plugin.info "Create directory for the first time 4"
+				fs.mkdir(@imgPath,(stat)=>
+					@plugin.info "Create directory for the first time"
 				)
 		)
 	add : (@id,@name,@cameraUrl) ->
 		#@plugin.info "Called Again "+ @id + "," + @name + "," + @cameraUrl
 		camera = new MjpegCamera({url: @cameraUrl,name: @name})
 		@array.push ({camera,@id})
+	stop : (camera,id)->
+		console.log "stop function"
+		camera.stop()
+		camera.getScreenshot((err,frame)=>
+			try
+				console.log "screenshot "+@imgPath+id
+				fs.writeFileSync(@imgPath+id+".jpg", frame)
+			catch err
+				@plugin.error "error grab frame @getsnapshot function " + err
+			return 
+		)
 	start : () ->
 		#@plugin.info "masuk sini untuk " + @array
 		http.createServer((req,res) =>
@@ -55,8 +64,8 @@ class Base
 						@plugin.info entry["camera"].name
 						entry["camera"].pipe(ws)
 						res.on 'close', () =>
-							#console.log "stop"
-							entry["camera"].stop()
+							console.log "stop"
+							@stop(entry["camera"],entry["id"])
 							return
 						stat=true
 					else if (("/page/"+entry["id"]).toLowerCase()==req.url.toLowerCase()) 
