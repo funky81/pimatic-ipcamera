@@ -4,9 +4,11 @@ module.exports = (env) ->
 	MjpegCamera = require 'mjpeg-camera'
 	fs = env.require 'fs'
 	path = env.require 'path'
+	Base = require('./base')
 
 	class IpCameraPlugin extends env.plugins.Plugin
 		init: (app, @framework, @config) =>
+			@base = new Base(@framework, @config, this)
 			deviceConfigDef = require("./device-config-schema")
 			@framework.deviceManager.registerDeviceClass("IpCameraDevice",{
 				configDef : deviceConfigDef.IpCameraDevice,
