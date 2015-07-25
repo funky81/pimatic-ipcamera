@@ -7,7 +7,7 @@ $(document).on( "templateinit", (event) ->
 			@id = @device.id
 			@imgId = "img"+@device.id
 			@name = @device.name
-			@filename = "img/"+@device.config.filename
+			@filename = "http://localhost:10000/stream/"+@id
 			@width = @device.config.width  ? @device.configDefaults.width
 			@height = @device.config.height ? @device.configDefaults.height 
 			@refresh = @device.config.refresh

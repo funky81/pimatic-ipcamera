@@ -27,11 +27,10 @@ class Base
 					if (("/stream/"+entry["id"]).toLowerCase()==req.url.toLowerCase()) 
 						#@plugin.info "masuk yuks"	
 						entry["camera"].start()
-						
 						res.writeHead(200, {'Content-Type': 'multipart/x-mixed-replace; boundary=' + boundary});
 						ws = new WriteStream({objectMode: true})
-						ws._write =(chunk, enc, next) =>
-							@plugin.info "masuk sni"
+						ws._write =(chunk, enc, next) ->
+							#@plugin.info "masuk sni"
 							jpeg = chunk.data
 							res.write(boundary + '\nContent-Type: image/jpeg\nContent-Length: '+ jpeg.length + '\n\n')
 							res.write(jpeg)
@@ -40,7 +39,7 @@ class Base
 						@plugin.info entry["camera"].name
 						entry["camera"].pipe(ws)
 						res.on 'close', () =>
-							console.log "stop"
+							#console.log "stop"
 							entry["camera"].stop()
 							return
 						stat=true
