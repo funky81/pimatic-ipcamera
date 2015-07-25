@@ -3,7 +3,6 @@ module.exports = (env) ->
 	assert = env.require 'cassert'
 	MjpegCamera = require 'mjpeg-camera'
 	fs = env.require 'fs'
-	path = env.require 'path'
 	Base = require('./base')
 
 	class IpCameraPlugin extends env.plugins.Plugin
@@ -70,27 +69,6 @@ module.exports = (env) ->
 			@cameraUrl = @config.cameraUrl
 			@width = @config.width
 			@height = @config.height
-			#@getSnapshot(@filename)
-			if @refresh > 0
-				@getSnapshot(@filename)
-				setInterval( ( => @getSnapshot(@filename) ), 1000*@refresh)
-			@imgPath = ""
-			if process.platform in ['win32', 'win64']
-				@imgPath = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\img\\"
-			else
-				@imgPath = path.dirname(fs.realpathSync(__filename+"/../"))+"/pimatic-mobile-frontend/public/img/"			
-			fs.exists(@imgPath,(exists)=>
-				if !exists 
-					@plugin.info "masuk sini lagi " + exists
-					try 
-						if isCreateDir == false
-							fs.mkdir(@imgPath,(stat)=>
-								@plugin.info "Create directory for the first time"
-							)
-							isCreateDir = true
-					catch fsErr
-						@plugin.error "error because " + fsErr
-			)
 			@base.add(@id,@name,@cameraUrl)
 			super()
 			

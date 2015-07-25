@@ -4,7 +4,8 @@
 WriteStream = require('stream').Writable
 http = require 'http' 
 MjpegCamera = require 'mjpeg-camera'
-
+path = require 'path'
+fs = require 'fs'
 class Base 
 	constructor: (framework,config,plugin) ->
 		@framework = framework
@@ -12,6 +13,21 @@ class Base
 		@plugin = plugin
 		#@plugin.info "Called "+@config.devices
 		@array = []
+		@createImgDirectory()
+	createImgDirectory: ->
+		imgPath = ""
+		if process.platform in ['win32', 'win64']
+			imgPath = path.dirname(fs.realpathSync(__filename+"\\..\\"))+"\\pimatic-mobile-frontend\\public\\img\\"
+		else
+			imgPath = path.dirname(fs.realpathSync(__filename+"/../"))+"/pimatic-mobile-frontend/public/img/"			
+		@plugin.info "Create directory for the first time 5 "+imgPath
+		fs.exists(imgPath,(exists)=>
+			if !exists 
+				@plugin.info "Create directory for the first time 3"
+				fs.mkdir(imgPath,(stat)=>
+					@plugin.info "Create directory for the first time 4"
+				)
+		)
 	add : (@id,@name,@cameraUrl) ->
 		#@plugin.info "Called Again "+ @id + "," + @name + "," + @cameraUrl
 		camera = new MjpegCamera({url: @cameraUrl,name: @name})
