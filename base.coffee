@@ -29,10 +29,13 @@ class Base
 	add : (@id,@name,@cameraUrl) ->
 		#@plugin.info "Called Again "+ @id + "," + @name + "," + @cameraUrl
 		camera = new MjpegCamera({url: @cameraUrl,name: @name})
+		@snapshot(camera,@id)
 		@array.push ({camera,@id})
 	stop : (camera,id)->
 		#console.log "stop function"
 		camera.stop()
+		@snapshot(camera,id)
+	snapshot: (camera,id)->
 		camera.getScreenshot((err,frame)=>
 			try
 				#console.log "screenshot "+@imgPath+id
@@ -51,6 +54,7 @@ class Base
 					#@plugin.info "entry : /stream/" + entry["id"] + " "+req.url
 					if (("/stream/"+entry["id"]).toLowerCase()==req.url.toLowerCase()) 
 						#@plugin.info "Start Stream for Camera "+entry["camera"].name
+						#@snapshot(entry["camera"],entry["id"])
 						entry["camera"].start()
 						res.writeHead(200, {'Content-Type': 'multipart/x-mixed-replace; boundary=' + boundary});
 						ws = new WriteStream({objectMode: true})
