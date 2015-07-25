@@ -12,7 +12,7 @@ module.exports = (env) ->
 			deviceConfigDef = require("./device-config-schema")
 			@framework.deviceManager.registerDeviceClass("IpCameraDevice",{
 				configDef : deviceConfigDef.IpCameraDevice,
-				createCallback : (config) => new IpCameraDevice(config,this)
+				createCallback : (config) => new IpCameraDevice(config,this,@base)
 			})
 			#@framework.ruleManager.addActionProvider(new IpCameraActionProvider(@framework))
 			@framework.on "after init", =>
@@ -20,6 +20,8 @@ module.exports = (env) ->
 				if mobileFrontend?
 					mobileFrontend.registerAssetFile 'js', "pimatic-ipcamera/app/IpCameraTempl-page.coffee"
 					mobileFrontend.registerAssetFile 'html', "pimatic-ipcamera/app/IpCameraTempl-template.html"
+				@base.start()
+				return
 		info: (text) ->
 			env.logger.info text
 			return
@@ -60,7 +62,7 @@ module.exports = (env) ->
 						type: "string"				
 		template: 'ipcamera'
 		isCreateDir = false
-		constructor: (@config,@plugin) ->
+		constructor: (@config,@plugin,@base) ->
 			@id = @config.id
 			@name = @config.name
 			@filename = @config.filename
@@ -89,6 +91,7 @@ module.exports = (env) ->
 					catch fsErr
 						@plugin.error "error because " + fsErr
 			)
+			@base.add(@id,@name,@cameraUrl)
 			super()
 			
 		getWidth: -> Promise.resolve(@width)
