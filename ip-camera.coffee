@@ -79,9 +79,9 @@ module.exports = (env) ->
 		getFilename: -> Promise.resolve(@filename)
 		streamCommand : (command) ->
 			if command == "stop"
-				@plugin.info "Stop Stream"
+				@plugin.info "Stop Stream for Camera "+ @name
 			else
-				@plugin.info "Start Stream"
+				@plugin.info "Start Stream for Camera "+ @name
 						
 	class IpCameraActionProvider extends env.actions.ActionProvider
 		constructor: (@framework)->

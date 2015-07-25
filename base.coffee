@@ -31,11 +31,11 @@ class Base
 		camera = new MjpegCamera({url: @cameraUrl,name: @name})
 		@array.push ({camera,@id})
 	stop : (camera,id)->
-		console.log "stop function"
+		#console.log "stop function"
 		camera.stop()
 		camera.getScreenshot((err,frame)=>
 			try
-				console.log "screenshot "+@imgPath+id
+				#console.log "screenshot "+@imgPath+id
 				fs.writeFileSync(@imgPath+id+".jpg", frame)
 			catch err
 				@plugin.error "error grab frame @getsnapshot function " + err
@@ -50,7 +50,7 @@ class Base
 				if !stat
 					#@plugin.info "entry : /stream/" + entry["id"] + " "+req.url
 					if (("/stream/"+entry["id"]).toLowerCase()==req.url.toLowerCase()) 
-						#@plugin.info "masuk yuks"	
+						#@plugin.info "Start Stream for Camera "+entry["camera"].name
 						entry["camera"].start()
 						res.writeHead(200, {'Content-Type': 'multipart/x-mixed-replace; boundary=' + boundary});
 						ws = new WriteStream({objectMode: true})
@@ -61,10 +61,10 @@ class Base
 							res.write(jpeg)
 							next()
 							return
-						@plugin.info entry["camera"].name
+						#@plugin.info entry["camera"].name
 						entry["camera"].pipe(ws)
 						res.on 'close', () =>
-							console.log "stop"
+							#console.log "stop"
 							@stop(entry["camera"],entry["id"])
 							return
 						stat=true
