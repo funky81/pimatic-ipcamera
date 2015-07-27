@@ -7,7 +7,7 @@ module.exports = (env) ->
 
 	class IpCameraPlugin extends env.plugins.Plugin
 		init: (app, @framework, @config) =>
-			@base = new Base(@framework, @config, this)
+			@base = new Base(@framework, @config, this,app)
 			deviceConfigDef = require("./device-config-schema")
 			@framework.deviceManager.registerDeviceClass("IpCameraDevice",{
 				configDef : deviceConfigDef.IpCameraDevice,

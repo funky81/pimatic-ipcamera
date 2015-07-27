@@ -7,10 +7,11 @@ MjpegCamera = require 'mjpeg-camera'
 path = require 'path'
 fs = require 'fs'
 class Base 
-	constructor: (framework,config,plugin) ->
+	constructor: (framework,config,plugin,app) ->
 		@framework = framework
 		@config = config
 		@plugin = plugin
+		@app = app
 		#@plugin.info "Called "+@config.devices
 		@array = []
 		@createImgDirectory()
@@ -27,8 +28,8 @@ class Base
 				)
 		)
 	add : (id,name,cameraUrl,username,password) ->
-		@plugin.info @config
-		@plugin.info "Called Again "+ id + "," + name + "," + cameraUrl + username + password
+		#@plugin.info @config
+		#@plugin.info "Called Again "+ id + "," + name + "," + cameraUrl + username + password
 		camera = new MjpegCamera({
 			user: username || '',
 			password: password || '',
@@ -51,6 +52,12 @@ class Base
 		)
 	start : () ->
 		#@plugin.info "masuk sini untuk " + @array
+		@array.forEach((entry)=>
+			@app.get('/stream/'+entry["id"],(req,res)=>
+				@plugin.info "masuk sini " + entry["id"]
+			)
+		)
+		
 		http.createServer((req,res) =>
 			stat = false
 			boundary = '--boundandrebound'
@@ -91,12 +98,10 @@ class Base
 								</html>')
 						return
 				catch err
-					@plugin.info "error : " + err
+					#@plugin.info "error : " + err
 					@plugin.error "error: " + err
 			)
 		).listen(10000)
 		return
-		
-		
 		
 module.exports = Base
