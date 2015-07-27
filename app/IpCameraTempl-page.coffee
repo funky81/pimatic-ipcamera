@@ -22,7 +22,7 @@ $(document).on( "templateinit", (event) ->
 			if command == "stop"
 				$("."+@imgId).attr('src','/img/'+@id+".jpg")
 			else
-				$("."+@imgId).attr('src',location.protocol+'//'+location.hostname+':10000/stream/'+@id)
+				$("."+@imgId).attr('src','/stream/'+@id)
 			return
 		updateImage : (command) ->
 			return

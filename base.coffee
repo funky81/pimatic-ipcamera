@@ -38,9 +38,12 @@ class Base
 		@snapshot(camera,id)
 		@array.push ({camera,id})
 	stop : (camera,id)->
-		#console.log "stop function"
-		camera.stop()
-		@snapshot(camera,id)
+		try
+			#console.log "stop function"
+			camera.stop()
+			@snapshot(camera,id)
+		catch err
+			@plugin.error err
 	snapshot: (camera,id)->
 		camera.getScreenshot((err,frame)=>
 			try
@@ -52,56 +55,84 @@ class Base
 		)
 	start : () ->
 		#@plugin.info "masuk sini untuk " + @array
+		@status=false
 		@array.forEach((entry)=>
+			boundary = '--boundandrebound'
 			@app.get('/stream/'+entry["id"],(req,res)=>
 				@plugin.info "masuk sini " + entry["id"]
-			)
+				if !@status
+					entry["camera"].start()
+					@status=true
+				@plugin.info "masuk sini 2 " + entry["id"]
+				res.writeHead(200, {'Content-Type': 'multipart/x-mixed-replace; boundary=' + boundary});
+				ws = new WriteStream({objectMode: true})
+				ws._write =(chunk, enc, next) ->
+					#@plugin.info "masuk sni"
+					jpeg = chunk.data
+					res.write(boundary + '\nContent-Type: image/jpeg\nContent-Length: '+ jpeg.length + '\n\n')
+					res.write(jpeg)
+					next()
+					return
+				#@plugin.info entry["camera"].name
+				@plugin.info "masuk sini 3" + entry["id"]
+				entry["camera"].pipe(ws)
+				@plugin.info "masuk sini 4" + entry["id"]
+				res.on 'close', () =>
+					#console.log "stop"
+					res.end()
+					@status=false
+					@stop(entry["camera"],entry["id"])
+					return
+				)
 		)
 		
-		http.createServer((req,res) =>
-			stat = false
-			boundary = '--boundandrebound'
-			@array.forEach((entry)=>
-				try
-					if !stat
-						#@plugin.info "entry : /stream/" + entry["id"] + " "+req.url
-						if (("/stream/"+entry["id"]).toLowerCase()==req.url.toLowerCase()) 
-							#@plugin.info "Start Stream for Camera "+entry["camera"].name
-							#@snapshot(entry["camera"],entry["id"])
-							entry["camera"].start()
-							res.writeHead(200, {'Content-Type': 'multipart/x-mixed-replace; boundary=' + boundary});
-							ws = new WriteStream({objectMode: true})
-							ws._write =(chunk, enc, next) ->
-								#@plugin.info "masuk sni"
-								jpeg = chunk.data
-								res.write(boundary + '\nContent-Type: image/jpeg\nContent-Length: '+ jpeg.length + '\n\n')
-								res.write(jpeg)
-								next()
-								return
-							#@plugin.info entry["camera"].name
-							entry["camera"].pipe(ws)
-							res.on 'close', () =>
-								#console.log "stop"
-								@stop(entry["camera"],entry["id"])
-								return
-							stat=true
-						else if (("/page/"+entry["id"]).toLowerCase()==req.url.toLowerCase()) 
-							res.writeHead(200, {'Content-Type': 'text/html'})
-							res.end('<!doctype html>\
-								<html>\
-									<head>\
-										<title>'+entry["camera"].name+'</title>\
-									</head>\
-									<body style="background:#000;">\
-										<img src="/stream" style="width:100%;height:auto;">\
-									</body>\
-								</html>')
-						return
-				catch err
-					#@plugin.info "error : " + err
-					@plugin.error "error: " + err
-			)
-		).listen(10000)
+#		http.createServer((req,res) =>
+#			stat = false
+#			boundary = '--boundandrebound'
+#			@array.forEach((entry)=>
+#				try
+#					if !stat
+#						#@plugin.info "entry : /stream/" + entry["id"] + " "+req.url
+#						if (("/stream/"+entry["id"]).toLowerCase()==req.url.toLowerCase()) 
+#							#@plugin.info "Start Stream for Camera "+entry["camera"].name
+#							#@snapshot(entry["camera"],entry["id"])
+#							entry["camera"].start()
+#							res.writeHead(200, {'Content-Type': 'multipart/x-mixed-replace; boundary=' + boundary});
+#							ws = new WriteStream({objectMode: true})
+#							ws._write =(chunk, enc, next) ->
+#								#@plugin.info "masuk sni"
+#								jpeg = chunk.data
+#								res.write(boundary + '\nContent-Type: image/jpeg\nContent-Length: '+ jpeg.length + '\n\n')
+#								res.write(jpeg)
+#								next()
+#								return
+#							#@plugin.info entry["camera"].name
+#							entry["camera"].pipe(ws)
+#							res.on 'close', () =>
+#								#console.log "stop"
+#								@stop(entry["camera"],entry["id"])
+#								return
+#							stat=true
+#						else if (("/page/"+entry["id"]).toLowerCase()==req.url.toLowerCase()) 
+#							res.writeHead(200, {'Content-Type': 'text/html'})
+#							res.end('<!doctype html>\
+#								<html>\
+#									<head>\
+#										<title>'+entry["camera"].name+'</title>\
+#									</head>\
+#									<body style="background:#000;">\
+#										<img src="/stream" style="width:100%;height:auto;">\
+#									</body>\
+#								</html>')
+#						return
+#				catch err
+#					#@plugin.info "error : " + err
+#					@plugin.error "error: " + err
+#			)
+#		).listen(10000)
+
+
+
 		return
 		
 module.exports = Base
