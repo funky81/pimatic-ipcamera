@@ -26,7 +26,9 @@ then you have to add your devices into your config.json based on these schema
       "name": [Name of your camera],
       "filename": [Filename],
       "cameraUrl": [URL from your camera],
-      "refresh": [Snapshot refresh]
+      "refresh": [Snapshot refresh],
+      "usernane": [optional - user name],
+      "password": [optional - password]
     },
 
 Description:
