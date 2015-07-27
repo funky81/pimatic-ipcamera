@@ -26,11 +26,16 @@ class Base
 					@plugin.info "Create directory for the first time"
 				)
 		)
-	add : (@id,@name,@cameraUrl) ->
-		#@plugin.info "Called Again "+ @id + "," + @name + "," + @cameraUrl
-		camera = new MjpegCamera({url: @cameraUrl,name: @name})
-		@snapshot(camera,@id)
-		@array.push ({camera,@id})
+	add : (id,name,cameraUrl,username,password) ->
+		@plugin.info @config
+		@plugin.info "Called Again "+ id + "," + name + "," + cameraUrl + username + password
+		camera = new MjpegCamera({
+			user: username || '',
+			password: password || '',
+			url: cameraUrl || '',
+			name: name || ''})
+		@snapshot(camera,id)
+		@array.push ({camera,id})
 	stop : (camera,id)->
 		#console.log "stop function"
 		camera.stop()

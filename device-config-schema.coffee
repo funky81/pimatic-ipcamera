@@ -7,6 +7,14 @@ module.exports = {
 		type: "object"
 		extensions: ["xLink"]
 		properties:
+			username:
+				description: "User name for the access"
+				type: "string"
+				default: ""
+			password:
+				description: "password for the access"
+				type: "string"
+				default: ""
 			cameraUrl:
 				description: "URL of IP Camera"
 				type: "string"

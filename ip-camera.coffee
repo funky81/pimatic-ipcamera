@@ -35,6 +35,14 @@ module.exports = (env) ->
 			
 	class IpCameraDevice extends env.devices.Device
 		attributes:
+			username:
+				description: "User name for the access"
+				type: "string"
+				default: ""
+			password:
+				description: "password for the access"
+				type: "string"
+				default: ""
 			cameraUrl:
 				description: "URL of IP Camera"
 				type: "string"		
@@ -69,7 +77,9 @@ module.exports = (env) ->
 			@cameraUrl = @config.cameraUrl
 			@width = @config.width
 			@height = @config.height
-			@base.add(@id,@name,@cameraUrl)
+			@username = @config.username
+			@password = @config.password
+			@base.add(@id,@name,@cameraUrl,@username,@password)
 			super()
 			
 		getWidth: -> Promise.resolve(@width)
@@ -77,6 +87,8 @@ module.exports = (env) ->
 		getCameraUrl : -> Promise.resolve(@cameraUrl)	
 		getRefresh : -> Promise.resolve(@refresh)
 		getFilename: -> Promise.resolve(@filename)
+		getUsername: -> Promise.resolve(@username)
+		getPassword: -> Promise.resolve(@password)
 		streamCommand : (command) ->
 			if command == "stop"
 				@plugin.info "Stop Stream for Camera "+ @name
