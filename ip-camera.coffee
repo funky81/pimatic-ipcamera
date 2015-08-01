@@ -92,8 +92,10 @@ module.exports = (env) ->
 		streamCommand : (command) ->
 			if command == "stop"
 				@plugin.info "Stop Stream for Camera "+ @name
+				#@base.stop()
 			else
 				@plugin.info "Start Stream for Camera "+ @name
+				#@base.start()
 						
 	class IpCameraActionProvider extends env.actions.ActionProvider
 		constructor: (@framework)->

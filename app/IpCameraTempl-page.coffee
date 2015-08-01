@@ -18,11 +18,11 @@ $(document).on( "templateinit", (event) ->
 		stopStream : -> @streamCommand "stop"
 		startStream : -> @streamCommand "start"
 		streamCommand: (command) ->
-			@device.rest.streamCommand({command}, global: no)		
 			if command == "stop"
-				$("."+@imgId).attr('src','/img/'+@id+".jpg")
+				$("."+@imgId).attr('src','/img/'+@id+".jpg?t="+new Date().getTime())
 			else
 				$("."+@imgId).attr('src','/stream/'+@id)
+			@device.rest.streamCommand({command}, global: no)						
 			return
 		updateImage : (command) ->
 			return

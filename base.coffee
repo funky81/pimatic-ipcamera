@@ -15,6 +15,7 @@ class Base
 		#@plugin.info "Called "+@config.devices
 		@array = []
 		@createImgDirectory()
+		@status=false
 	createImgDirectory: ->
 		@imgPath = ""
 		if process.platform in ['win32', 'win64']
@@ -35,53 +36,68 @@ class Base
 			password: password || '',
 			url: cameraUrl || '',
 			name: name || ''})
-		@snapshot(camera,id)
+		#@snapshot(camera,id)
+		camera.start()
 		@array.push ({camera,id})
+	stop : ->
+		console.log "stop function 2"
+		#@plugin.info @camera
+		#@camera.stop()
+		#@status=false
 	stop : (camera,id)->
 		try
-			#console.log "stop function"
-			camera.stop()
-			@snapshot(camera,id)
+			console.log "stop function 2"
+			#@status=false
+			#camera.stop()
+			#@snapshot(camera,id)
 		catch err
 			@plugin.error err
 	snapshot: (camera,id)->
 		camera.getScreenshot((err,frame)=>
 			try
 				#console.log "screenshot "+@imgPath+id
-				fs.writeFileSync(@imgPath+id+".jpg", frame)
+				fs.writeFile(@imgPath+id+".jpg", frame)
 			catch err
 				@plugin.error "error grab frame @getsnapshot function " + err
 			return 
 		)
 	start : () ->
 		#@plugin.info "masuk sini untuk " + @array
-		@status=false
+		
 		@array.forEach((entry)=>
 			boundary = '--boundandrebound'
 			@app.get('/stream/'+entry["id"],(req,res)=>
-				@plugin.info "masuk sini " + entry["id"]
-				if !@status
-					entry["camera"].start()
-					@status=true
-				@plugin.info "masuk sini 2 " + entry["id"]
+				#@plugin.info "masuk sini " + entry["id"]
+				#if !@status
+				#	entry["camera"].start()
+				#	@status=true
+				#@plugin.info "masuk sini 2 " + entry["id"]
 				res.writeHead(200, {'Content-Type': 'multipart/x-mixed-replace; boundary=' + boundary});
 				ws = new WriteStream({objectMode: true})
 				ws._write =(chunk, enc, next) ->
-					#@plugin.info "masuk sni"
-					jpeg = chunk.data
-					res.write(boundary + '\nContent-Type: image/jpeg\nContent-Length: '+ jpeg.length + '\n\n')
-					res.write(jpeg)
-					next()
+					try
+						#console.log "masuk sni"
+						jpeg = chunk.data
+						res.write(boundary + '\nContent-Type: image/jpeg\nContent-Length: '+ jpeg.length + '\n\n')
+						res.write(jpeg)
+						next()
+					catch err
+						console.log err
 					return
 				#@plugin.info entry["camera"].name
-				@plugin.info "masuk sini 3" + entry["id"]
-				entry["camera"].pipe(ws)
-				@plugin.info "masuk sini 4" + entry["id"]
+				#@plugin.info "masuk sini 3" + entry["id"]
+				try
+					#@camera = entry["camera"]				
+					entry["camera"].pipe(ws)	
+				catch err
+					console.log err
+				#@plugin.info "masuk sini 4" + entry["id"]
 				res.on 'close', () =>
-					#console.log "stop"
+					#@camera.stop()
+					#@stop(entry["camera"],entry["id"])
+					console.log "stop"
 					res.end()
 					@status=false
-					@stop(entry["camera"],entry["id"])
 					return
 				)
 		)
