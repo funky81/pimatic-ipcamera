@@ -40,17 +40,18 @@ class Base
 		camera.start()
 		setInterval(()=>
 			@snapshot camera,id
-			console.log "snapshot for " + id
+			#console.log "snapshot for " + id
 		,1000*10)
 		@array.push ({camera,id})
 	stop : ->
-		console.log "stop function 2"
-		#@plugin.info @camera
+		#console.log "stop function 2"
+		@plugin.info "stop function 1"
 		#@camera.stop()
 		#@status=false
 	stop : (camera,id)->
 		try
-			console.log "stop function 2"
+			#console.log "stop function 2"
+			@plugin.info "stop function 2"
 			#@status=false
 			#camera.stop()
 			#@snapshot(camera,id)
