@@ -38,6 +38,10 @@ class Base
 			name: name || ''})
 		#@snapshot(camera,id)
 		camera.start()
+		setInterval(()=>
+			@snapshot camera,id
+			console.log "snapshot for " + id
+		,1000*10)
 		@array.push ({camera,id})
 	stop : ->
 		console.log "stop function 2"
