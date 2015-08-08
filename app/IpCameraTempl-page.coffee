@@ -7,37 +7,26 @@ $(document).on( "templateinit", (event) ->
 			@id = @device.id
 			@imgId = "img"+@device.id
 			@name = @device.name
-			@filename = "img/"+@device.config.filename
+			@filename = "/img/"+@id+".jpg"
 			@width = @device.config.width  ? @device.configDefaults.width
 			@height = @device.config.height ? @device.configDefaults.height 
-			console.log(@height + " " + @width)
+			@refresh = @device.config.refresh
 			super(templData,@device)
-			console.log(this)
 		afterRender : (elements) ->
 			super(elements)
 			@refreshButton = $(elements).find('[name=refreshButton]')
-		refreshCommand : -> @sendCommand "refresh"
-		sendCommand: (command) ->
-			@updateImage(command)
+		stopStream : -> @streamCommand "stop"
+		startStream : -> @streamCommand "start"
+		streamCommand: (command) ->
+			if command == "stop"
+				$("."+@imgId).attr('src','/img/'+@id+".jpg?t="+new Date().getTime())
+			else
+				$("."+@imgId).attr('src','/stream/'+@id)
+			@device.rest.streamCommand({command}, global: no)						
 			return
 		updateImage : (command) ->
-			@device.rest.sendCommand({command}, global: no)
-			.done((data)=>
-				x=setInterval((=>
-					$("."+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
-				),1000)
-				$("."+@imgId)
-					.on "load",()=>
-						clearInterval(x)
-						console.log("load success for "+@filename)
-						return
-					.on "error",()=> 
-						console.log("still failed for loading "+@filename)
-						return						
-					.attr("src",@filename + "?ts="+ new Date().getTime())
-				return
-			).fail(ajaxAlertFail)
-			return		
-    # register the item-class
+			return
+  
+  # register the item-class
 	pimatic.templateClasses['ipcamera'] = IpCameraDeviceItem
 )

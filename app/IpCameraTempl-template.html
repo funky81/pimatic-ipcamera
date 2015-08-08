@@ -7,7 +7,8 @@
             <img data-bind="attr:{src: filename,class: imgId, width: width, height: height}" /><br/>
         </div>
         <div>
-            <a class="ui-btn ui-corner-all" name="refreshButton" data-bind="click: refreshCommand">Refresh</a>
+            <a class="ui-first-child ui-btn ui-corner-all" name="stopButton" data-bind="click: stopStream">Stop</a>
+            <a class="ui-last-child ui-btn ui-corner-all" name="startButton" data-bind="click: startStream">Start</a>
         </div>
     </li>
 </script>

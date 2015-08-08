@@ -5,6 +5,7 @@
     "license": "MIT",
     "main": "ip-camera",
     "files": [
+        "base.coffee",
         "ip-camera.coffee",
         "README.md",
         "device-config-schema.coffee",
@@ -22,7 +23,7 @@
         "surveillance",
         "mjpg"
     ],
-    "version": "1.0.0",
+    "version": "1.0.4",
     "homepage": "http://github.com/funky81/pimatic-ip-camera",
     "private": false,
     "repository": {

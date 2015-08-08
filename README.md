@@ -21,12 +21,14 @@ Configuration
 then you have to add your devices into your config.json based on these schema
 
     {
-      "id": "ID of your camera",
-      "name": "Name of your camera",
-      "class": "IpCameraDevice",
-      "cameraUrl": "URL from your camera",
-      "filename": "Filename",
-      "refresh": Snapshot refresh
+      "id" : [ID of your camera],
+      "class": IpCameraDevice,
+      "name": [Name of your camera],
+      "filename": [Filename],
+      "cameraUrl": [URL from your camera],
+      "refresh": [Snapshot refresh],
+      "usernane": [optional - user name],
+      "password": [optional - password]
     },
 
 Description:
@@ -37,30 +39,10 @@ Description:
     class : device class
     cameraUrl : url that direct to your http mjpeg server (should include all, include path to file)
     filename : location of local filename, will be represent inside of your img folder in pimatic-mobile-frontend/public/img
-    refresh : time taken in seconds!
-
-Compatibility
--------------
-
-Different cameraUrl types
-
-Supported:
-
-    http://[host]:[port]/[script.extension]?user=[user]&pwd=[password]
-
-Not supported yet or unknown:
-
-    http://[host]:[port]/[directory]/[script.extension]?-usr=[user]&-pwd=[password] 
-    http://[user]:[password]@[host]:[port]/[script.extension]
-    
-for better list check here http://www.ispyconnect.com
-for example
-
-    Panasonic BL-C1 : http://www.ispyconnect.com/man.aspx?n=panasonic (currently only support MJPEG in connection type column)
+    refresh : time taken in seconds
 
 Version History
 ---------------
-    1.0.0 : Stable release
     0.1.2 : First time release plugins
     
 Roadmap
