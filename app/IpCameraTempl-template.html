@@ -7,9 +7,9 @@
             <img data-bind="attr:{src: filename,class: imgId, width: width, height: height}" /><br/>
         </div>
         <div>
-            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-refresh ui-block-first-child" name="stopButton" data-bind="click: stopStream">Refresh</a>
-            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-stop" name="stopButton"  data-bind="click: stopStream">Stop</a>
-            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-play ui-last-child" name="startButton" data-bind="click: startStream">Start</a>
+            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-refresh ui-block-first-child" name="refreshButton" data-bind="click: refreshStream">Refresh</a>
+            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-stop" id="stopButton" name="stopButton"  data-bind="click: stopStream">Stop</a>
+            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-play ui-last-child" id="startButton" name=" startbutton" data-bind="click: startStream">Start</a>
         </div>
     </li>
 </script>

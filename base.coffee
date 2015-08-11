@@ -37,11 +37,11 @@ class Base
 			url: cameraUrl || '',
 			name: name || ''})
 		#@snapshot(camera,id)
-		camera.start()
+		#camera.start()
 		setInterval(()=>
 			@snapshot camera,id
 			#console.log "snapshot for " + id
-		,1000*10)
+		,1000*1)
 		@array.push ({camera,id})
 	stop : ->
 		#console.log "stop function 2"

@@ -19,7 +19,7 @@ module.exports = (env) ->
 				if mobileFrontend?
 					mobileFrontend.registerAssetFile 'js', "pimatic-ipcamera/app/IpCameraTempl-page.coffee"
 					mobileFrontend.registerAssetFile 'html', "pimatic-ipcamera/app/IpCameraTempl-template.html"
-				@base.start()
+				@#base.start()
 				return
 		info: (text) ->
 			env.logger.info text
@@ -90,12 +90,12 @@ module.exports = (env) ->
 		getUsername: -> Promise.resolve(@username)
 		getPassword: -> Promise.resolve(@password)
 		streamCommand : (command) ->
-			if command == "stop"
-				@plugin.info "Stop Stream for Camera "+ @name
-				#@base.stop()
-			else
+			if command == "start"
 				@plugin.info "Start Stream for Camera "+ @name
-				#@base.start()
+			else if command == "stop"
+				@plugin.info "Stop Stream for Camera "+ @name
+			else if command == "refresh"
+				@plugin.info "Refresh Stream for Camera "+ @name
 						
 	class IpCameraActionProvider extends env.actions.ActionProvider
 		constructor: (@framework)->
