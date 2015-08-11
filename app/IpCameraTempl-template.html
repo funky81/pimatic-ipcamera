@@ -4,13 +4,24 @@
             <label class="device-label" data-bind="text: name" />
         </div>
         <div>
-            <img data-bind="attr:{src: filename,class: imgId, width: width, height: height}" /><br/>
+            <img data-bind="attr:{src: filename,class: imgId, width: width, height: height}" /><br />
         </div>
         <div>
             <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-refresh ui-block-first-child" name="refreshButton" data-bind="click: refreshStream">Refresh</a>
-            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-stop" id="stopButton" name="stopButton"  data-bind="click: stopStream">Stop</a>
+            <div class="ui-select ui-btn-inline ui-mini">
+                <div id="select-delay" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow">
+                    <span>Delay</span>
+                    <select>
+                        <option value="1">1 seconds</option>
+                        <option value="5">5 seconds</option>
+                        <option value="10" selected>10 seconds</option>
+                        <option value="30">30 seconds</option>
+                        <option value="30">60 seconds</option>
+                    </select>
+                </div>
+            </div>
+            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-stop" id="stopButton" name="stopButton" data-bind="click: stopStream">Stop</a>
             <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-play ui-last-child" id="startButton" name=" startbutton" data-bind="click: startStream">Start</a>
         </div>
     </li>
 </script>
-  

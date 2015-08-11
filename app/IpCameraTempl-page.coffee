@@ -22,17 +22,17 @@ $(document).on( "templateinit", (event) ->
 			if command == "start"
 				if @x == 0
 					console.log "Start Stream for "+ @imgId
-					$('#startButton').bind('click', false);
+					@delay = $( "#select-delay option:selected" ).val() * 1000
+					console.log @delay
 					@x=setInterval((=>
 						$("."+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
 						console.log "Repeat for "+ @filename
-					),1000)
+					),@delay)
 			else if command == "stop"
 				console.log "Stop Stream for "+ @imgId
 				clearInterval(@x)
 				@x=0
 			else if command == "refresh"
-				$('#startButton').bind('click', true);
 				console.log "Refresh Stream for Camera "+ @imgId
 				clearInterval(@x)
 				@x=0
