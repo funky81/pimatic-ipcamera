@@ -14,20 +14,26 @@ $(document).on( "templateinit", (event) ->
 			super(templData,@device)
 		afterRender : (elements) ->
 			super(elements)
-			@refreshButton = $(elements).find('[name=refreshButton]')
+			#@refreshButton = $(elements).find('[name=refreshButton]')			
 		stopStream : -> @streamCommand "stop"
 		startStream : -> @streamCommand "start"
 		refreshStream : -> @streamCommand "refresh"
+		changeSelect :(obj,event) -> 
+			console.log event.target.value
+			@delay = event.target.value
+			$(".select_"+@imgId).val(@delay)
 		streamCommand: (command) ->
 			if command == "start"
 				if @x == 0
 					console.log "Start Stream for "+ @imgId
-					@delay = $( "#select-delay option:selected" ).val() * 1000
-					console.log @delay
-					@x=setInterval((=>
-						$("."+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
-						console.log "Repeat for "+ @filename
-					),@delay)
+#					@delay = $( "#"+@imgId+ " option:selected" ).val() 
+#					console.log @delay
+
+#					@x=setInterval((=>
+#						$("."+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
+#						console.log "Repeat for "+ @filename
+#					),@delay* 1000)
+
 			else if command == "stop"
 				console.log "Stop Stream for "+ @imgId
 				clearInterval(@x)

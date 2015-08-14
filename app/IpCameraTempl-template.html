@@ -9,14 +9,14 @@
         <div>
             <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-refresh ui-block-first-child" name="refreshButton" data-bind="click: refreshStream">Refresh</a>
             <div class="ui-select ui-btn-inline ui-mini">
-                <div id="select-delay" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow">
+                <div class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow">
                     <span>Delay</span>
-                    <select>
+                    <select data-bind="attr:{class: 'select_'+imgId}, event:{change: changeSelect}">
                         <option value="1">1 seconds</option>
                         <option value="5">5 seconds</option>
-                        <option value="10" selected>10 seconds</option>
+                        <option value="10">10 seconds</option>
                         <option value="30">30 seconds</option>
-                        <option value="30">60 seconds</option>
+                        <option value="60">60 seconds</option>
                     </select>
                 </div>
             </div>
