@@ -4,14 +4,14 @@
             <label class="device-label" data-bind="text: name" />
         </div>
         <div>
-            <img data-bind="attr:{src: filename,class: imgId, width: width, height: height}" /><br />
+            <img data-bind="attr:{src: filename,class: 'img_'+imgId, width: width, height: height}" /><br />
         </div>
         <div>
             <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-refresh ui-block-first-child" name="refreshButton" data-bind="click: refreshStream">Refresh</a>
             <div class="ui-select ui-btn-inline ui-mini">
                 <div class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow">
                     <span>Delay</span>
-                    <select data-bind="attr:{class: 'select_'+imgId}, event:{change: changeSelect}">
+                    <select data-bind="attr:{class: 'select_'+imgId}, event:{change: changeSelect},value: delay">
                         <option value="1">1 seconds</option>
                         <option value="5">5 seconds</option>
                         <option value="10">10 seconds</option>

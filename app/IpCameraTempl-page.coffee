@@ -4,6 +4,7 @@ $(document).on( "templateinit", (event) ->
 		constructor: (templData, @device) ->
 			@x=0
 			uId = ""
+			@delay=5
 			@id = @device.id
 			@imgId = "img"+@device.id
 			@name = @device.name
@@ -19,20 +20,19 @@ $(document).on( "templateinit", (event) ->
 		startStream : -> @streamCommand "start"
 		refreshStream : -> @streamCommand "refresh"
 		changeSelect :(obj,event) -> 
-			console.log event.target.value
 			@delay = event.target.value
+			console.log @delay
 			$(".select_"+@imgId).val(@delay)
 		streamCommand: (command) ->
 			if command == "start"
 				if @x == 0
 					console.log "Start Stream for "+ @imgId
 #					@delay = $( "#"+@imgId+ " option:selected" ).val() 
-#					console.log @delay
-
-#					@x=setInterval((=>
-#						$("."+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
-#						console.log "Repeat for "+ @filename
-#					),@delay* 1000)
+					console.log @delay
+					@x=setInterval((=>
+						$(".img_"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
+						console.log "Repeat for "+ @filename
+					),@delay*1000)
 
 			else if command == "stop"
 				console.log "Stop Stream for "+ @imgId
@@ -42,7 +42,7 @@ $(document).on( "templateinit", (event) ->
 				console.log "Refresh Stream for Camera "+ @imgId
 				clearInterval(@x)
 				@x=0
-				$("."+@imgId).attr("src",@filename + "?ts="+ new Date().getTime()) 
+				$(".img_"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
 			@device.rest.streamCommand({command}, global: no)						
 			return
 		updateImage : (command) ->
