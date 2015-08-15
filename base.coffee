@@ -18,6 +18,18 @@ class Base
 		@array = []
 		@createImgDirectory()
 		@status=false
+		
+		resemble.outputSettings({
+			errorColor: {
+				red: 255,
+				green: 0,
+				blue: 255
+			},
+			errorType: 'movement',
+			transparency: 0.3,
+			largeImageThreshold: 1200
+		})
+		
 	createImgDirectory: ->
 		@imgPath = ""
 		if process.platform in ['win32', 'win64']
@@ -43,7 +55,7 @@ class Base
 		setInterval(()=>
 			@snapshot camera,id
 			#console.log "snapshot for " + id
-		,1000*1)
+		,1000*10)
 		@array.push ({camera,id})
 	stop : ->
 		#console.log "stop function 2"
@@ -63,6 +75,7 @@ class Base
 		camera.getScreenshot((err,frame)=>
 			try
 				#console.log "screenshot "+@imgPath+id
+				@diffPNG = @imgPath+id+"_diff.jpg"
 				@newFileJPG = @imgPath+id+"_new.jpg"
 				@newFilePNG = @imgPath+id+"_new.png"
 				@oldFileJPG = @imgPath+id+"_old.jpg"
@@ -75,9 +88,11 @@ class Base
 								if (exists)
 										@newFile = fs.readFileSync(@newFilePNG)
 										@oldFile = fs.readFileSync(@oldFilePNG)
-										resemble(@newFile).compareTo(@oldFile).onComplete((data)=>
+										resemble(@newFile).compareTo(@oldFile)
+										.ignoreColors()
+										.onComplete((data)=>
 											console.log('with ignore rectangle:', data)
-											data.getDiffImage().pack().pipe(fs.createWriteStream('diffr.png'))
+											data.getDiffImage().pack().pipe(fs.createWriteStream(@diffPNG))
 											return
 										)
 										return
@@ -87,9 +102,6 @@ class Base
 							return
 						))
 						return
-#						console.log @img.width()
-#						console.log "Finished"
-						
 					catch errX
 						console.log errX
 				)
