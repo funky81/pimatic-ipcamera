@@ -1,6 +1,8 @@
 #Promise = env.require 'bluebird'
 #assert = require 'assert'
 #events = require 'events'
+resemble = require('node-resemble-js');
+images = require('images')
 WriteStream = require('stream').Writable
 http = require 'http' 
 MjpegCamera = require 'mjpeg-camera'
@@ -61,7 +63,36 @@ class Base
 		camera.getScreenshot((err,frame)=>
 			try
 				#console.log "screenshot "+@imgPath+id
-				fs.writeFile(@imgPath+id+".jpg", frame)
+				@newFileJPG = @imgPath+id+"_new.jpg"
+				@newFilePNG = @imgPath+id+"_new.png"
+				@oldFileJPG = @imgPath+id+"_old.jpg"
+				@oldFilePNG = @imgPath+id+"_old.png"
+				fs.writeFile(@newFileJPG, frame,()=>
+					try
+						@imgNew = images(@newFileJPG).save(@newFilePNG)
+						fs.exists(@oldFilePNG, (exists)=>(
+							try
+								if (exists)
+										@newFile = fs.readFileSync(@newFilePNG)
+										@oldFile = fs.readFileSync(@oldFilePNG)
+										resemble(@newFile).compareTo(@oldFile).onComplete((data)=>
+											console.log('with ignore rectangle:', data)
+											data.getDiffImage().pack().pipe(fs.createWriteStream('diffr.png'))
+											return
+										)
+										return
+								fs.renameSync(@newFilePNG,@oldFilePNG)
+							catch errY
+									console.log errY
+							return
+						))
+						return
+#						console.log @img.width()
+#						console.log "Finished"
+						
+					catch errX
+						console.log errX
+				)
 			catch err
 				@plugin.error "error grab frame @getsnapshot function " + err
 			return 
