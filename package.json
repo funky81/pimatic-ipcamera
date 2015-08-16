@@ -23,7 +23,7 @@
         "surveillance",
         "mjpg"
     ],
-    "version": "1.0.9",
+    "version": "1.0.10",
     "homepage": "http://github.com/funky81/pimatic-ip-camera",
     "private": false,
     "repository": {
@@ -32,7 +32,10 @@
     },
     "configSchema": "ip-camera-config-schema.coffee",
     "dependencies": {
-        "mjpeg-camera": "^1.5.8"
+        "mjpeg-camera": "^1.5.8",
+        "images": "^2.1.6",
+        "node-resemble-js": "^0.0.4"
+
     },
     "peerDependencies": {
         "pimatic": "0.8.*"
