@@ -49,12 +49,12 @@ class Base
 			name: name || ''})
 		setInterval(()=>
 			@snapshot camera,id
-		,1000*10)
+		,1000*1)
 		@array.push ({camera,id})
 	snapshot: (camera,id)->
 		camera.getScreenshot((err,frame)=>
 			try
-				@diffPNG = @imgPath+id+"_diff_"+(new Date).getTime()+".jpg"
+				@diffPNG = @imgPath+id+"_diff_"+(new Date).getTime()+".png"
 				@newFileJPG = @imgPath+id+"_new.jpg"
 				@newFilePNG = @imgPath+id+"_new.png"
 				@oldFileJPG = @imgPath+id+"_old.jpg"
@@ -70,14 +70,14 @@ class Base
 										resemble(@newFile).compareTo(@oldFile)
 										.ignoreColors()
 										.onComplete((data)=>
-											console.log(id, ' with ignore rectangle:', data)
+											console.log(id, ' with ignore color:', data)
 											data.getDiffImage().pack().pipe(fs.createWriteStream(@diffPNG))
 											return
 										)
 										return
 								fs.renameSync(@newFilePNG,@oldFilePNG)
 							catch errY
-									console.log errY
+									console.log "ID : ",@id,"Error : ",errY
 							return
 						))
 						return
