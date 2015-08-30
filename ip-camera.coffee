@@ -66,7 +66,14 @@ module.exports = (env) ->
 				description: "Command for streaming"
 				params: 
 					command: 
-						type: "string"				
+						type: "string"
+					delay:
+						type:	"number"
+			otherCommand:
+				description: "Command for stop / capture streaming"
+				params: 
+					command: 
+						type: "string"
 		template: 'ipcamera'
 		isCreateDir = false
 		constructor: (@config,@plugin,@base) ->
@@ -89,10 +96,11 @@ module.exports = (env) ->
 		getFilename: -> Promise.resolve(@filename)
 		getUsername: -> Promise.resolve(@username)
 		getPassword: -> Promise.resolve(@password)
-		streamCommand : (command) ->
+		streamCommand : (command,delay) ->
 			if command == "start"
-				@plugin.info "Start Stream for "+ @name
-			else if command == "stop"
+				@plugin.info "Start Stream for "+ @name + ",delay : "+delay
+		otherCommand : (command) ->
+			if command == "stop"
 				@plugin.info "Stop Stream for "+ @name
 			else if command == "refresh"
 				@plugin.info "Refresh Stream for "+ @name + " ,@id: "+@id
