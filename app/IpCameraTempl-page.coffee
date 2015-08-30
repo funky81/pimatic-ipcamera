@@ -13,8 +13,9 @@ $(document).on( "templateinit", (event) ->
 			@height = @device.config.height ? @device.configDefaults.height 
 			@refresh = @device.config.refresh
 			@socket = io.connect('http://localhost:8080')
-			@socket.on("refresh",()->
-				console.log "Refresh"
+			@socket.on("refresh",(data)=>
+				console.log "Refresh : "+ @imgId + ", data : " + data
+				#$(".img_"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
 			)
 			super(templData,@device)
 		afterRender : (elements) ->
@@ -46,9 +47,8 @@ $(document).on( "templateinit", (event) ->
 				console.log "Refresh Stream for Camera "+ @imgId
 				clearInterval(@x)
 				@x=0
-				$(".img_"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
+				
 			@device.rest.streamCommand({command}, global: no)						
-			
 			return
 		updateImage : (command) ->
 			return

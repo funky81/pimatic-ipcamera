@@ -91,12 +91,12 @@ module.exports = (env) ->
 		getPassword: -> Promise.resolve(@password)
 		streamCommand : (command) ->
 			if command == "start"
-				@plugin.info "Start Stream for Camera "+ @name
+				@plugin.info "Start Stream for "+ @name
 			else if command == "stop"
-				@plugin.info "Stop Stream for Camera "+ @name
+				@plugin.info "Stop Stream for "+ @name
 			else if command == "refresh"
-				@plugin.info "Refresh Stream for Camera "+ @name
-						
+				@plugin.info "Refresh Stream for "+ @name + " ,@id: "+@id
+				@base.capture @id
 	class IpCameraActionProvider extends env.actions.ActionProvider
 		constructor: (@framework)->
 			#env.logger.info "Masuk sini constructor"

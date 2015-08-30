@@ -35,21 +35,32 @@ class Base
 			password: password || '',
 			url: cameraUrl || '',
 			name: name || ''})
-		setInterval(()=>
-			@snapshot camera,id
-			#console.log "snapshot for " + id
-			@io.emit("refresh")
-		,1000*1)
+#		setInterval(()=>
+#			@snapshot camera,id
+##			console.log "snapshot for " + id
+#		,1000*1)
 		@array.push ({camera,id})
 	snapshot: (camera,id)->
 		camera.getScreenshot((err,frame)=>
 			try
-				fs.writeFile(@imgPath+id+".jpg", frame)
+				fs.writeFile(@imgPath+id+".jpg", frame,()=>
+					@plugin.info "for each : " + id
+					@io.emit("refresh",id)
+				)
 			catch err
 				@plugin.error "error grab frame @getsnapshot function " + err
 			return 
 		)
-
 		return
-		
+	capture : (id) ->
+		loopStat = false
+		@plugin.info "outer for each : " + id
+		@array.forEach((entry) =>
+			if (entry["id"]==id && !loopStat)
+				loopStat = true
+				@plugin.info "for each : " + entry["id"]
+				camera = entry["camera"]
+				@snapshot camera,id
+		)
+	
 module.exports = Base
