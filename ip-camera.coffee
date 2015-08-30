@@ -19,7 +19,7 @@ module.exports = (env) ->
 				if mobileFrontend?
 					mobileFrontend.registerAssetFile 'js', "pimatic-ipcamera/app/IpCameraTempl-page.coffee"
 					mobileFrontend.registerAssetFile 'html', "pimatic-ipcamera/app/IpCameraTempl-template.html"
-				@#base.start()
+				#@base.start()
 				return
 		info: (text) ->
 			env.logger.info text

@@ -12,6 +12,10 @@ $(document).on( "templateinit", (event) ->
 			@width = @device.config.width  ? @device.configDefaults.width
 			@height = @device.config.height ? @device.configDefaults.height 
 			@refresh = @device.config.refresh
+			@socket = io.connect('http://localhost:8080')
+			@socket.on("refresh",()->
+				console.log "Refresh"
+			)
 			super(templData,@device)
 		afterRender : (elements) ->
 			super(elements)
@@ -44,6 +48,7 @@ $(document).on( "templateinit", (event) ->
 				@x=0
 				$(".img_"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
 			@device.rest.streamCommand({command}, global: no)						
+			
 			return
 		updateImage : (command) ->
 			return
