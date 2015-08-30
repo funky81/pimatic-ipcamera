@@ -1,5 +1,6 @@
 $(document).on( "templateinit", (event) ->
   # define the item class
+	done = false
 	class IpCameraDeviceItem extends pimatic.DeviceItem
 		constructor: (templData, @device) ->
 			@x=0
@@ -13,9 +14,11 @@ $(document).on( "templateinit", (event) ->
 			@height = @device.config.height ? @device.configDefaults.height 
 			@refresh = @device.config.refresh
 			@socket = io.connect('http://localhost:8080')
-			@socket.on("refresh",(data)=>
-				console.log "Refresh : "+ @imgId + ", data : " + data
-				#$(".img_"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
+			@socket.on("snapshot"+@id,(data)=>
+				if (data == @id && !done)
+					done = true
+					console.log "Refresh : "+ @imgId + ", data : " + data
+					$(".img_"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
 			)
 			super(templData,@device)
 		afterRender : (elements) ->
@@ -45,9 +48,9 @@ $(document).on( "templateinit", (event) ->
 				@x=0
 			else if command == "refresh"
 				console.log "Refresh Stream for Camera "+ @imgId
-				clearInterval(@x)
-				@x=0
-				
+				#clearInterval(@x)
+				#@x=0
+			done = false
 			@device.rest.streamCommand({command}, global: no)						
 			return
 		updateImage : (command) ->

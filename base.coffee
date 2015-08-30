@@ -44,8 +44,8 @@ class Base
 		camera.getScreenshot((err,frame)=>
 			try
 				fs.writeFile(@imgPath+id+".jpg", frame,()=>
-					@plugin.info "for each : " + id
-					@io.emit("refresh",id)
+					@plugin.info "screenshot for each : " + id
+					@io.emit("snapshot"+id,id)
 				)
 			catch err
 				@plugin.error "error grab frame @getsnapshot function " + err
@@ -53,11 +53,9 @@ class Base
 		)
 		return
 	capture : (id) ->
-		loopStat = false
 		@plugin.info "outer for each : " + id
 		@array.forEach((entry) =>
-			if (entry["id"]==id && !loopStat)
-				loopStat = true
+			if (entry["id"]==id)
 				@plugin.info "for each : " + entry["id"]
 				camera = entry["camera"]
 				@snapshot camera,id
