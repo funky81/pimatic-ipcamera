@@ -16,6 +16,7 @@ class Base
 		@createImgDirectory()
 		@status=false
 		@io = framework.io
+		@interval=0
 	createImgDirectory: ->
 		@imgPath = ""
 		if process.platform in ['win32', 'win64']
@@ -35,10 +36,6 @@ class Base
 			password: password || '',
 			url: cameraUrl || '',
 			name: name || ''})
-#		setInterval(()=>
-#			@snapshot camera,id
-##			console.log "snapshot for " + id
-#		,1000*1)
 		@array.push ({camera,id})
 	snapshot: (camera,id)->
 		camera.getScreenshot((err,frame)=>
@@ -60,5 +57,19 @@ class Base
 				camera = entry["camera"]
 				@snapshot camera,id
 		)
+	streamingCapture : (id,time) ->
+		@plugin.info "outer for each : " + id
+		@array.forEach((entry) =>
+			if (entry["id"]==id)
+				@plugin.info "for each : " + entry["id"]
+				camera = entry["camera"]
+				@interval = @setInterval(()=>
+					@snapshot camera,id
+					console.log "snapshot for " + id
+				,1000*time)
+		)
+	stopStreaming : (id) ->
+		clearInterval(@interval)
+		@interval = 0
 	
 module.exports = Base

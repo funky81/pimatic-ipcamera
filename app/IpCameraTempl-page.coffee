@@ -3,7 +3,6 @@ $(document).on( "templateinit", (event) ->
 	done = false
 	class IpCameraDeviceItem extends pimatic.DeviceItem
 		constructor: (templData, @device) ->
-			@x=0
 			uId = ""
 			@delay=5
 			@id = @device.id
@@ -33,19 +32,9 @@ $(document).on( "templateinit", (event) ->
 			$(".select_"+@imgId).val(@delay)
 		streamCommand: (command) ->
 			if command == "start"
-				if @x == 0
-					console.log "Start Stream for "+ @imgId
-#					@delay = $( "#"+@imgId+ " option:selected" ).val() 
-					console.log @delay
-					@x=setInterval((=>
-						$(".img_"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
-						console.log "Repeat for "+ @filename
-					),@delay*1000)
 
 			else if command == "stop"
-				console.log "Stop Stream for "+ @imgId
-				clearInterval(@x)
-				@x=0
+
 			else if command == "refresh"
 				console.log "Refresh Stream for Camera "+ @imgId
 				#clearInterval(@x)
