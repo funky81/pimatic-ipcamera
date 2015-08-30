@@ -64,7 +64,7 @@ class Base
 			if (entry["id"]==id)
 				@plugin.info "for each : " + entry["id"]
 				camera = entry["camera"]
-				@interval = @setInterval(()=>
+				@interval = setInterval(()=>
 					@snapshot camera,id
 					console.log "snapshot for " + id
 				,1000*@delay)

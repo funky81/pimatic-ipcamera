@@ -99,9 +99,11 @@ module.exports = (env) ->
 		streamCommand : (command,delay) ->
 			if command == "start"
 				@plugin.info "Start Stream for "+ @name + ",delay : "+delay
+				@base.streamingCapture @id,delay
 		otherCommand : (command) ->
 			if command == "stop"
 				@plugin.info "Stop Stream for "+ @name
+				@base.stopStreaming @id
 			else if command == "refresh"
 				@plugin.info "Refresh Stream for "+ @name + " ,@id: "+@id
 				@base.capture @id
