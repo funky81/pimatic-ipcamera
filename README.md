@@ -43,10 +43,15 @@ Description:
 
 Version History
 ---------------
+    1.1.0 : Stable release of MJPEG Camera Snapshot 
     0.1.2 : First time release plugins
     
 Roadmap
 ---------------
-    1.0.*   : Support for MJPEG camera snapshot
+    1.1.*   : Support for MJPEG camera snapshot (revised)
     2.0.*   : Support for RTSP camera snapshot
     3.0.*   : support for motion and predicate handler, includes integration with Pimatic Rules, authentication, SSL Support
+
+Notes:
+-------------
+    If you're upgrading from 0.1.* release, then you have to cleanup directory and reinstall again this plugin.
