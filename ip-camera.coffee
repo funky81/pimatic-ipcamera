@@ -19,7 +19,7 @@ module.exports = (env) ->
 				if mobileFrontend?
 					mobileFrontend.registerAssetFile 'js', "pimatic-ipcamera/app/IpCameraTempl-page.coffee"
 					mobileFrontend.registerAssetFile 'html', "pimatic-ipcamera/app/IpCameraTempl-template.html"
-				@base.start()
+				#@base.start()
 				return
 		info: (text) ->
 			env.logger.info text
@@ -66,7 +66,14 @@ module.exports = (env) ->
 				description: "Command for streaming"
 				params: 
 					command: 
-						type: "string"				
+						type: "string"
+					delay:
+						type:	"number"
+			otherCommand:
+				description: "Command for stop / capture streaming"
+				params: 
+					command: 
+						type: "string"
 		template: 'ipcamera'
 		isCreateDir = false
 		constructor: (@config,@plugin,@base) ->
@@ -89,14 +96,17 @@ module.exports = (env) ->
 		getFilename: -> Promise.resolve(@filename)
 		getUsername: -> Promise.resolve(@username)
 		getPassword: -> Promise.resolve(@password)
-		streamCommand : (command) ->
+		streamCommand : (command,delay) ->
+			if command == "start"
+				@plugin.info "Start Stream for "+ @name + ",delay : "+delay
+				@base.streamingCapture @id,delay
+		otherCommand : (command) ->
 			if command == "stop"
-				@plugin.info "Stop Stream for Camera "+ @name
-				#@base.stop()
-			else
-				@plugin.info "Start Stream for Camera "+ @name
-				#@base.start()
-						
+				@plugin.info "Stop Stream for "+ @name
+				@base.stopStreaming @id
+			else if command == "refresh"
+				@plugin.info "Refresh Stream for "+ @name + " ,@id: "+@id
+				@base.capture @id
 	class IpCameraActionProvider extends env.actions.ActionProvider
 		constructor: (@framework)->
 			#env.logger.info "Masuk sini constructor"
