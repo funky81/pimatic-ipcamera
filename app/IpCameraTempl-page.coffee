@@ -11,7 +11,7 @@ $(document).on( "templateinit", (event) ->
 			@width = @device.config.width  ? @device.configDefaults.width
 			@height = @device.config.height ? @device.configDefaults.height 
 			@refresh = @device.config.refresh
-			@socket = io.connect('http://localhost:8080')
+			@socket = io.connect("#{document.location.host}/")
 			@socket.on("snapshot"+@id,(data)=>
 				if (data == @id && !done)
 					done = true

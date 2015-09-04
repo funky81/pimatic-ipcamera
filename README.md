@@ -43,7 +43,7 @@ Description:
 
 Version History
 ---------------
-    1.1.0 : Stable release of MJPEG Camera Snapshot 
+    1.1.1 : Stable release of MJPEG Camera Snapshot 
     0.1.2 : First time release plugins
     
 Roadmap
