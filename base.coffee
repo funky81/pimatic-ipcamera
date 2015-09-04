@@ -50,6 +50,7 @@ class Base
 		)
 		return
 	capture : (id) ->
+		@stopStreaming id
 		@plugin.info "outer for each : " + id
 		@array.forEach((entry) =>
 			if (entry["id"]==id)
@@ -58,6 +59,7 @@ class Base
 				@snapshot camera,id
 		)
 	streamingCapture : (id,delay) ->
+		@stopStreaming id
 		@delay = delay
 		@plugin.info "outer for each : " + id
 		@array.forEach((entry) =>
@@ -67,9 +69,11 @@ class Base
 				@interval = setInterval(()=>
 					@snapshot camera,id
 					console.log "snapshot for " + id
+					@io.emit("streaming"+id,id)
 				,1000*@delay)
 		)
 	stopStreaming : (id) ->
+		@plugin.info "stop streaming for id : " + id
 		clearInterval(@interval)
 		@interval = 0
 	

@@ -18,6 +18,9 @@ $(document).on( "templateinit", (event) ->
 					console.log "Refresh : "+ @imgId + ", data : " + data
 					$(".img_"+@imgId).attr("src",@filename + "?ts="+ new Date().getTime())
 			)
+			@socket.on("streaming"+@id,(data)=>
+				done = false
+			)
 			super(templData,@device)
 		afterRender : (elements) ->
 			super(elements)
