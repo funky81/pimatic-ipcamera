@@ -18,17 +18,19 @@ Add the plugin to the plugin section:
 Configuration
 -------------
 
-then you have to add your devices into your config.json based on these schema
+You have to add your IP Camera device into your config.json based on these example schema ready to copy paste.
 
     {
-      "id" : [ID of your camera],
-      "class": IpCameraDevice,
-      "name": [Name of your camera],
-      "filename": [Filename],
-      "cameraUrl": [URL from your camera],
-      "refresh": [Snapshot refresh],
-      "usernane": [optional - user name],
-      "password": [optional - password]
+      "id" : "ipcamera",
+      "class": "IpCameraDevice",
+      "name": "IP Camera",
+      "filename": "snapshot.jpg",
+      "cameraUrl": "[URL from your camera]",
+      "username": "[optional username]",
+      "password": "[optional password]",
+      "refresh": "10",
+      "width": 340,
+      "height": 240
     },
 
 Description:
@@ -40,6 +42,8 @@ Description:
     cameraUrl : url that direct to your http mjpeg server (should include all, include path to file)
     filename : location of local filename, will be represent inside of your img folder in pimatic-mobile-frontend/public/img
     refresh : time taken in seconds
+    width : max width of the snapshot that is being showed
+    Height : max height of the snapshot that is being showed
 
 Version History
 ---------------
