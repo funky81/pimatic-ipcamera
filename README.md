@@ -28,7 +28,6 @@ You have to add your IP Camera device into your config.json based on these examp
       "cameraUrl": "[URL from your camera]",
       "username": "[optional username]",
       "password": "[optional password]",
-      "refresh": "10",
       "width": 340,
       "height": 240
     },
@@ -41,7 +40,6 @@ Description:
     class : device class
     cameraUrl : url that direct to your http mjpeg server (should include all, include path to file)
     filename : location of local filename, will be represent inside of your img folder in pimatic-mobile-frontend/public/img
-    refresh : time taken in seconds
     width : max width of the snapshot that is being showed
     Height : max height of the snapshot that is being showed
 
