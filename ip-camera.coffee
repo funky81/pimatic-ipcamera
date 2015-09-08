@@ -49,18 +49,14 @@ module.exports = (env) ->
 			filename:
 				description: "File name of the output"
 				type: "string"
-			refresh:
-				description: "Time to refresh screenshot"
-				type: "number"
-				default: 0
 			width:
 				description: "Width of the Image"
 				type: "number"				
-				default : 240
+				default : 340
 			height:
 				description: "Height of the Image"
 				type: "number"	
-				default : 160											
+				default : 240											
 		actions:
 			streamCommand:
 				description: "Command for streaming"
