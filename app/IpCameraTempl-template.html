@@ -7,8 +7,8 @@
             <img data-bind="attr:{src: filename,class: 'img_'+imgId, width: width, height: height}" /><br />
         </div>
         <div>
-            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-refresh ui-block-first-child" name="refreshButton" data-bind="click: refreshStream">Refresh</a>
-            <div class="ui-select ui-btn-inline ui-mini">
+            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-refresh ui-block-first-child" name="refreshButton" data-bind="click: refreshStream" style="margin-left: 2.5px; margin-right: 0px;">Refresh</a>
+            <div class="ui-select ui-btn-inline ui-mini" style="margin-left: 0px; margin-right: 0px;">
                 <div class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow">
                     <span>Delay</span>
                     <select data-bind="attr:{class: 'select_'+imgId}, event:{change: changeSelect},value: delay">
@@ -20,8 +20,8 @@
                     </select>
                 </div>
             </div>
-            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-stop" id="stopButton" name="stopButton" data-bind="click: stopStream">Stop</a>
-            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-play ui-last-child" id="startButton" name=" startbutton" data-bind="click: startStream">Start</a>
+            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-play ui-last-child" id="startButton" name=" startbutton" data-bind="click: startStream" style="margin-left: 0px; margin-right: 0px;">Start</a>
+            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-stop" id="stopButton" name="stopButton" data-bind="click: stopStream" style="margin-left: 0px; margin-right: 0px;">Stop</a>
         </div>
     </li>
 </script>
