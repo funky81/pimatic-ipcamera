@@ -28,6 +28,22 @@ module.exports = {
 			height:
 				description: "Height of the Image"
 				type: "number"
-				default : 240				
+				default : 240
+			leftURL:
+				description: "CURL URL to move camera left"
+				type: "string"
+				default: ""
+			rightURL:
+				description: "CURL URL to move camera right"
+				type: "string"
+				default: ""
+			upURL:
+				description: "CURL URL to move camera up"
+				type: "string"
+				default: ""
+			downURL:
+				description: "CURL URL to move camera down"
+				type: "string"
+				default: ""
 	}
 }

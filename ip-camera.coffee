@@ -3,6 +3,7 @@ module.exports = (env) ->
 	assert = env.require 'cassert'
 	MjpegCamera = require 'mjpeg-camera'
 	fs = env.require 'fs'
+	http = require 'http'
 	Base = require('./base')
 
 	class IpCameraPlugin extends env.plugins.Plugin
@@ -52,11 +53,27 @@ module.exports = (env) ->
 			width:
 				description: "Width of the Image"
 				type: "number"				
-				default : 340
+				default : 240
 			height:
 				description: "Height of the Image"
 				type: "number"	
-				default : 240											
+				default : 160
+			leftURL:
+				description: "URL to be called to move camera left"
+				type: "string"
+				default: ""
+			rightURL:
+				description: "URL to be called to move camera right"
+				type: "string"
+				default: ""
+			upURL:
+				description: "URL to be called to move camera up"
+				type: "string"
+				default: ""
+			downURL:
+				description: "URL to be called to move camera down"
+				type: "string"
+				default: ""											
 		actions:
 			streamCommand:
 				description: "Command for streaming"
@@ -70,6 +87,11 @@ module.exports = (env) ->
 				params: 
 					command: 
 						type: "string"
+			moveCommand:
+				description: "Command using a verb to move camera"
+				params:
+					direction:
+						type: "string"
 		template: 'ipcamera'
 		isCreateDir = false
 		constructor: (@config,@plugin,@base) ->
@@ -82,6 +104,10 @@ module.exports = (env) ->
 			@height = @config.height
 			@username = @config.username
 			@password = @config.password
+			@leftURL = @config.leftURL
+			@rightURL = @config.rightURL
+			@upURL = @config.upURL
+			@downURL = @config.downURL
 			@base.add(@id,@name,@cameraUrl,@username,@password)
 			super()
 			
@@ -92,6 +118,10 @@ module.exports = (env) ->
 		getFilename: -> Promise.resolve(@filename)
 		getUsername: -> Promise.resolve(@username)
 		getPassword: -> Promise.resolve(@password)
+		getLeftURL: -> Promise.resolve(@leftURL)
+		getRightURL: -> Promise.resolve(@rightURL)
+		getUpURL: -> Promise.resolve(@upURL)
+		getDownURL: -> Promise.resolve(@downURL)
 		streamCommand : (command,delay) ->
 			if command == "start"
 				@plugin.info "Start Stream for "+ @name + ",delay : "+delay
@@ -103,6 +133,26 @@ module.exports = (env) ->
 			else if command == "refresh"
 				@plugin.info "Refresh Stream for "+ @name + " ,@id: "+@id
 				@base.capture @id
+		moveCommand : (direction) ->
+			if direction == "left"
+				@plugin.info "Moving " + @id + " to the left"
+				@base.moveCamera(@leftURL.toString())
+				return	
+			else if direction == "right"
+				@plugin.info "Moving " + @id + " to the right"
+				@base.moveCamera(@rightURL.toString())
+				return
+			else if direction == "up"
+				@plugin.info "Moving " + @id + " up"
+				@base.moveCamera(@upURL.toString())
+				return
+			else if direction == "down"
+				@plugin.info "Moving " + @id + " down"
+				@base.moveCamera(@downURL.toString())
+				return
+			else
+				@plugin.error "Invalid direction"
+			return
 	class IpCameraActionProvider extends env.actions.ActionProvider
 		constructor: (@framework)->
 			#env.logger.info "Masuk sini constructor"

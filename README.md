@@ -29,8 +29,14 @@ You have to add your IP Camera device into your config.json based on these examp
       "username": "[optional username]",
       "password": "[optional password]",
       "width": 340,
-      "height": 240
+      "height": 240,
+      "leftURL": "",
+      "rightURL": "",
+      "upURL": "",
+      "downURL": ""
     },
+    
+
 
 Description:
 -------------
@@ -41,10 +47,24 @@ Description:
     cameraUrl : url that direct to your http mjpeg server (should include all, include path to file)
     filename : location of local filename, will be represent inside of your img folder in pimatic-mobile-frontend/public/img
     width : max width of the snapshot that is being showed
-    Height : max height of the snapshot that is being showed
+    height : max height of the snapshot that is being showed
+    leftURL : Url to be called to move camera to the left
+    rightURL : Url to be called to move camera to the right
+    upURL : Url to be called to move camera up
+    downURL : Url to be called to move camera down
+    
+URLs to move camera:
+---------------
+
+Most simple IP cameras use HTTP requests to move the camera or activate / deactivate functions.
+To obtain the Url that does a specific moving operation, you can use [Chrome Live HTTP Headers](https://chrome.google.com/webstore/detail/live-http-headers/iaiioopjkcekapmldfgbebdclcnpgnlo) plugin.
+
+Then just trigger the action you want to see in the web interface of your camera. The HTTP headers will be recorded and you will be able to obtain the request Url, e.g. "http://192.168.XXX.XXX/decoder_control.cgi?loginuse=admin&loginpas=&command=4&onestep=1"
 
 Version History
 ---------------
+	1.2.0 : Added support to move a camera using HTTP requests
+	1.1.2 : Minor modifications
     1.1.1 : Stable release of MJPEG Camera Snapshot 
     0.1.2 : First time release plugins
     

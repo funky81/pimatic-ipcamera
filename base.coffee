@@ -30,18 +30,22 @@ class Base
 				)
 		)
 
-	add : (id,name,cameraUrl,username,password) ->
+	add : (id,name,cameraUrl,username,password,leftURL,rightURL,upURL,downURL) ->
 		camera = new MjpegCamera({
 			user: username || '',
 			password: password || '',
 			url: cameraUrl || '',
 			name: name || ''})
 		@array.push ({camera,id})
+		@leftURL = leftURL
+		@rightURL = rightURL
+		@upURL = upURL
+		@downURL = downURL
 	snapshot: (camera,id)->
 		camera.getScreenshot((err,frame)=>
 			try
 				fs.writeFile(@imgPath+id+".jpg", frame,()=>
-					@plugin.info "screenshot for each : " + id
+#					@plugin.info "screenshot for each : " + id
 					@io.emit("snapshot"+id,id)
 				)
 			catch err
@@ -51,20 +55,20 @@ class Base
 		return
 	capture : (id) ->
 		@stopStreaming id
-		@plugin.info "outer for each : " + id
+#		@plugin.info "outer for each : " + id
 		@array.forEach((entry) =>
 			if (entry["id"]==id)
-				@plugin.info "for each : " + entry["id"]
+#				@plugin.info "for each : " + entry["id"]
 				camera = entry["camera"]
 				@snapshot camera,id
 		)
 	streamingCapture : (id,delay) ->
 		@stopStreaming id
 		@delay = delay
-		@plugin.info "outer for each : " + id
+#		@plugin.info "outer for each : " + id
 		@array.forEach((entry) =>
 			if (entry["id"]==id)
-				@plugin.info "for each : " + entry["id"]
+#				@plugin.info "for each : " + entry["id"]
 				camera = entry["camera"]
 				@interval = setInterval(()=>
 					@snapshot camera,id
@@ -76,5 +80,17 @@ class Base
 		@plugin.info "stop streaming for id : " + id
 		clearInterval(@interval)
 		@interval = 0
+	moveCamera : (url) ->
+		req = http.get url, (res) ->
+			status = res.statusCode
+			value = if status == 200 then 1 else 0
+			if status == 200
+#				return @plugin.info "Successfully moved"
+			else
+#				return @plugin.info "Error in moving"
+			return
+		req.on 'error', ->
+#			return @plugin.error "An error occurred"
+		@plugin.info "Done"
 	
 module.exports = Base
