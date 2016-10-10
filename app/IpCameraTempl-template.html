@@ -4,11 +4,18 @@
             <label class="device-label" data-bind="text: name" />
         </div>
         <div>
-            <img data-bind="attr:{src: filename,class: 'img_'+imgId, width: width, height: height}" /><br />
+            <img style="width:100%" data-bind="attr:{src: filename,class: 'img_'+imgId}" /><br />
         </div>
-        <div>
-            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-refresh ui-block-first-child" name="refreshButton" data-bind="click: refreshStream" style="margin-left: 2.5px; margin-right: 0px;">Refresh</a>
-            <div class="ui-select ui-btn-inline ui-mini" style="margin-left: 0px; margin-right: 0px;">
+        <div style="display: -webkit-flex;
+		display: flex;
+		-webkit-flex-direction: row;
+		-webkit-align-items: center;
+		align-items: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+		flex-wrap: wrap;">
+            <a class="ui-corner-all ui-btn ui-mini ui-btn-icon-left ui-icon-refresh ui-block-first-child" name="refreshButton" data-bind="click: refreshStream">Refresh</a>
+            <div class="ui-select ui-mini">
                 <div class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow">
                     <span>Delay</span>
                     <select data-bind="attr:{class: 'select_'+imgId}, event:{change: changeSelect},value: delay">
@@ -20,8 +27,22 @@
                     </select>
                 </div>
             </div>
-            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-play ui-last-child" id="startButton" name=" startbutton" data-bind="click: startStream" style="margin-left: 0px; margin-right: 0px;">Start</a>
-            <a class="ui-corner-all ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-stop" id="stopButton" name="stopButton" data-bind="click: stopStream" style="margin-left: 0px; margin-right: 0px;">Stop</a>
+            <a class="ui-corner-all ui-btn ui-mini ui-btn-icon-left ui-icon-stop" id="stopButton" name="stopButton" data-bind="click: stopStream">Stop</a>
+            <a class="ui-corner-all ui-btn ui-mini ui-btn-icon-left ui-icon-play ui-last-child" id="startButton" name=" startbutton" data-bind="click: startStream">Start</a>
         </div>
+	<div style="display: -webkit-flex;
+		display: flex;
+		-webkit-flex-direction: row;
+		flex-direction: row;
+		-webkit-align-items: center;
+		align-items: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+		flex-wrap: wrap;">
+	    <a class="ui-corner-all ui-btn ui-mini ui-btn-icon-notext ui-icon-arrow-l" style="padding:0.25em 1em 0.25em 1em;" name="moveLeftButton" data-bind="click: moveLeft"></a>
+	    <a class="ui-corner-all ui-btn ui-mini ui-btn-icon-notext ui-icon-arrow-r" style="padding:0.25em 1em 0.25em 1em;" name="moveRightButton" data-bind="click: moveRight"></a>
+	    <a class="ui-corner-all ui-btn ui-mini ui-btn-icon-notext ui-icon-arrow-u" style="padding:0.25em 1em 0.25em 1em;" name="moveUpButton" data-bind="click: moveUp"></a>
+	    <a class="ui-corner-all ui-btn ui-mini ui-btn-icon-notext ui-icon-arrow-d" style="padding:0.25em 1em 0.25em 1em;" name="moveDownButton" data-bind="click: moveDown"></a>
+	</div>
     </li>
 </script>

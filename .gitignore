@@ -3,3 +3,4 @@ doc/*
 .js
 *.js
 *.map
+.DS_Store
